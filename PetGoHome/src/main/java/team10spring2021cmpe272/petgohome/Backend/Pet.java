@@ -51,6 +51,12 @@ public class Pet {
     private String missingDate;
     @Getter
     @Setter
+    private String state;
+    @Getter
+    @Setter
+    private String county;
+    @Getter
+    @Setter
     private String lostLocation;
     @Getter
     @Setter

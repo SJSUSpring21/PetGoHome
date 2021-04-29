@@ -5,6 +5,9 @@ import team10spring2021cmpe272.petgohome.Backend.Pet;
 import team10spring2021cmpe272.petgohome.Dao.PetDao;
 import team10spring2021cmpe272.petgohome.Service.PetService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PetServiceImpl implements PetService {
     private PetDao petDao;
@@ -21,5 +24,16 @@ public class PetServiceImpl implements PetService {
     @Override
     public void removeYourPet(Pet pet) {
         petDao.deletePetByPetId(pet.getPetId());
+    }
+
+    @Override
+    public Pet findPetByPetId(long petId) {
+        return petDao.searchPetByPetId(petId);
+    }
+
+    @Override
+    public List<Pet> findPetsByCounty(String county, String state) {
+        List<Pet> result = petDao.searchPetByCounty(county, state);
+        return result;
     }
 }

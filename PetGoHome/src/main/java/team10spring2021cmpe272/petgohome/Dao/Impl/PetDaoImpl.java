@@ -1,18 +1,23 @@
 package team10spring2021cmpe272.petgohome.Dao.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.stereotype.Repository;
 import team10spring2021cmpe272.petgohome.Backend.Pet;
 import team10spring2021cmpe272.petgohome.Dao.PetDao;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
+
 @Repository
 public class PetDaoImpl implements PetDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     final String INSERT_QUERY = "insert into pet (petid, ownerid, pet_name, type, weight, height, gender, breed, color, hair_length, age, phone, email, missing_date, lost_location, picture, description) values (?, ?, ?, ?, ?, ?, ?, ?,?,?,?,?,?,?)";
-    final String UPDATE_QUERY = "update employee set pet_name = ? where id = ?";
+    final String UPDATE_QUERY = "update pet set pet_name = ? where id = ?";
     final String DELETE_QUERY = "delete from pet where petid = ?";
     final String SEARCH_QUERY = "select * from pet where petid = ?";
+    final String SEARCH_BY_COUNTY_QUERY = "select * from pet where state = ? and county = ?";
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -35,6 +40,8 @@ public class PetDaoImpl implements PetDao {
                 pet.getPhone(),
                 pet.getEmail(),
                 pet.getMissingDate(),
+                pet.getState(),
+                pet.getCounty(),
                 pet.getLostLocation(),
                 pet.getPictureUrl(),
                 pet.getDescription());
@@ -56,7 +63,14 @@ public class PetDaoImpl implements PetDao {
     }
 
     @Override
-    public void searchPetByPetId(long petId){
-        jdbcTemplate.update(SEARCH_QUERY, petId);
+    public Pet searchPetByPetId(long petId){
+        Pet result = jdbcTemplate.queryForObject(SEARCH_QUERY, BeanPropertyRowMapper.newInstance(Pet.class) ,petId);
+        return result;
+    }
+
+    @Override
+    public List<Pet> searchPetByCounty(String county, String state) {
+        List<Pet> result = jdbcTemplate.query(SEARCH_BY_COUNTY_QUERY, BeanPropertyRowMapper.newInstance(Pet.class), state, county);
+        return result;
     }
 }

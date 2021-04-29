@@ -2,6 +2,8 @@ package team10spring2021cmpe272.petgohome.Dao;
 
 import team10spring2021cmpe272.petgohome.Backend.Pet;
 
+import java.util.List;
+
 public interface PetDao {
     public int save(Pet pet);
 
@@ -9,5 +11,7 @@ public interface PetDao {
 
     public void deletePetByPetId(long petId);
 
-    public void searchPetByPetId(long petId);
+    public Pet searchPetByPetId(long petId);
+
+    public List<Pet> searchPetByCounty(String county, String state);
 }
