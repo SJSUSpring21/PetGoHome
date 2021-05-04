@@ -7,7 +7,7 @@ import java.util.List;
 public interface PetService {
     void addNewLostPet(Pet pet);
     void updatePetInfo(Pet pet);
-    void removeYourPet(Pet pet);
+    void removeYourPet(long petId);
     Pet findPetByPetId(long petId);
     List<Pet> findPetsByCounty(String county, String state);
 

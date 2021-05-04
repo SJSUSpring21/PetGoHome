@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Builder(toBuilder=true)
 public class Pet {
 
@@ -60,7 +62,7 @@ public class Pet {
     private String lostLocation;
     @Getter
     @Setter
-    private String[] description;
+    private List<String> description;
     @Getter
     @Setter
     private String pictureUrl;
