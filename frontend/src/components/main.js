@@ -11,6 +11,7 @@ import LandingPage from "./LandingPage/landingpage";
 
 import WhomToContact from "./Info/WhomToContact";
 import stolenpets from "./Info/stolenpets";
+import mapswithicon from "./mapswithicon/mapswithicon";
 
 class Main extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class Main extends Component {
           <Route path="/landingpage" component={LandingPage} />
           <Route path="/whomtocontact" component={WhomToContact} />
           <Route path="/stolenpets" component={stolenpets} />
+          {/* <Route path="/mapswithicon" component={mapswithicon} /> */}
         </div>
       </div>
     );
