@@ -16,123 +16,68 @@ import axios from "axios";
 import icon from "../../Icons/p4.webp";
 
 function Map() {
-  const [latlong, setLatlong] = useState([
-    {
-      lat: null,
-      lng: null,
-    },
-  ]);
-
-  const [locations, setLocations] = useState([
-    {
-      lost_location: null,
-    },
-  ]);
+  const [locations, setLocations] = useState([{}]);
 
   useEffect(() => {
     axios
       .post(backendServer + "/getLocations")
       .then((response) => {
         setLocations(response.data);
+        console.log(response.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    const listener = (e) => {
-      if (e.key === "Escape") {
-        setLocations(null);
-      }
-    };
-    window.addEventListener("keydown", listener);
-
-    return () => {
-      window.removeEventListener("keydown", listener);
-    };
   }, []);
 
   const handleClick = () => {
-    locations.map((location) =>
-      geocodeByAddress(location.lost_location)
-        .then((results) => getLatLng(results[0]))
-        .then((latLng) => {
-          setLatlong(...latlong, latLng);
-        })
+    if (locations.length > 0) {
+      locations.map((location) => {
+        // console.log(location);
+        geocodeByAddress(location.lost_location)
+          .then((results) => getLatLng(results[0]))
+          .then((latLng) => {
+            // setLatlong(...latlong, latLng);
+            // setTimeout(1000);
+            console.log(latLng);
+            let data = {
+              id: location.id,
+              loca: location.lost_location,
+              latitude: latLng.lat,
+              longitude: latLng.lng,
+            };
+            console.log(data);
+            axios
+              .post(backendServer + "/setLatLong", data)
+              .then((response) => {
+                console.log("inserted");
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
 
-        .catch((error) => console.error("Error", error))
-    );
-    console.log(latlong);
-    // axios
-    //   .post(backendServer + "/getLocations")
-    //   .then((response) => {
-    //     setLocations(response.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  };
-
-  const getCoordinates = () => {
-    locations.map((location) =>
-      geocodeByAddress(location.lost_location)
-        .then((results) => getLatLng(results[0]))
-        .then((latLng) => {
-          setLatlong(...latlong, latLng);
-        })
-
-        .catch((error) => console.error("Error", error))
-    );
+          //   axios
+          //     .post(backendServer + "/getLocations", data)
+          //     .then((response) => {
+          //       console.log("inserted");
+          //     })
+          //     .catch((err) => {
+          //       console.log(err);
+          //     });
+          // })
+          .catch((error) => console.error("Error", error));
+      });
+    }
   };
 
   return (
-    <div>
-      {console.log("entered")}
-      {console.log(locations)}
-      {/* {getCoordinates}
-      {console.log("latlng is : " + latlong)} */}
+    <>
+      {" "}
       <Button variant="contained" color="primary" onClick={handleClick}>
-        Get Locations
+        convert{" "}
       </Button>
-      {/* <GoogleMap
-        defaultZoom={10}
-        defaultCenter={{ lat: 45.4211, lng: -75.6903 }}
-        // defaultOptions={{ styles: mapStyles }}
-      >
-        {latlong.map((location) => (
-          <Marker
-            key={location}
-            position={{
-              lat: location.lat,
-              lng: location.lng,
-            }}
-            onClick={() => {
-              // setSelectedPark(park);
-            }}
-            icon={{
-              url: `/skateboarding.svg`,
-              scaledSize: new window.google.maps.Size(25, 25),
-            }}
-          />
-        ))}
-
-        {/* { (
-        <InfoWindow
-          onCloseClick={() => {
-            // setSelectedPark(null);
-          }}
-          position={{
-            lat: selectedPark.geometry.coordinates[1],
-            lng: selectedPark.geometry.coordinates[0]
-          }}
-        >
-          <div>
-            <h2>{selectedPark.properties.NAME}</h2>
-            <p>{selectedPark.properties.DESCRIPTIO}</p>
-          </div>
-        </InfoWindow>
-      )} */}
-      {/* </GoogleMap> */} */}
-    </div>
+    </>
   );
 }
 

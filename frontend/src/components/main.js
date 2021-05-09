@@ -12,6 +12,8 @@ import WhomToContact from "./Info/WhomToContact";
 import stolenpets from "./Info/stolenpets";
 import mapswithicon from "./mapswithicon/mapswithicon";
 
+import Convert from "./convert/convertolatlng";
+
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -33,6 +35,7 @@ class Main extends Component {
           <Route path="/whomtocontact" component={WhomToContact} />
           <Route path="/stolenpets" component={stolenpets} />
           <Route path="/mapswithicon" component={mapswithicon} />
+          <Route path="/convert" component={Convert} />
         </div>
       </div>
     );
