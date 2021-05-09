@@ -12,7 +12,7 @@ import p4 from "../../Icons/p4.webp";
 // import { Card } from "antd";
 import "./footer.css";
 import { Link } from "react-router-dom";
-import LandingPage from "./../landingPage/landingPage";
+// import LandingPage from "./../landingPage/landingPage";
 import "./navbar.css";
 // import { Row, Col } from "react-bootstrap";
 
@@ -189,7 +189,7 @@ class Navbar extends Component {
         </div>
         {/* </Toolbar>
         </AppBar> */}
-        {this.props.location.pathname === "/" ? <LandingPage /> : ""}
+        {/* {this.props.location.pathname === "/" ? <LandingPage /> : ""} */}
       </div>
       // </div>
     );

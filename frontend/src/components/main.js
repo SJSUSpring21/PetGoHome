@@ -7,7 +7,7 @@ import LostOrFound from "./lostOrFound/lostOrFound";
 // import Maps from "./GoogleMaps/maps";
 // import FileUpload from "../components/Upload/upload";
 // import pdfGenerator from "./PDFgenerator/pdfgenerator";
-import Home from "./home/home";
+import Home from "./Home/home";
 import WhomToContact from "./Info/WhomToContact";
 import stolenpets from "./Info/stolenpets";
 import mapswithicon from "./mapswithicon/mapswithicon";
@@ -32,7 +32,7 @@ class Main extends Component {
           <Route path="/home" component={Home} />
           <Route path="/whomtocontact" component={WhomToContact} />
           <Route path="/stolenpets" component={stolenpets} />
-          {/* <Route path="/mapswithicon" component={mapswithicon} /> */}
+          <Route path="/mapswithicon" component={mapswithicon} />
         </div>
       </div>
     );
