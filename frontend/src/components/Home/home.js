@@ -1,392 +1,207 @@
 import React from "react";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import Checkbox from "@material-ui/core/Checkbox";
-import MenuItem from "@material-ui/core/MenuItem";
-import ToggleButton from "@material-ui/lab/ToggleButton";
-import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-import Paper from "@material-ui/core/Paper";
-import Grid from "@material-ui/core/Grid";
-import { Row } from "antd";
-import DateRangeIcon from "@material-ui/icons/DateRange";
-import EmailIcon from "@material-ui/icons/Email";
-import PhoneIcon from "@material-ui/icons/Phone";
-import StreetviewIcon from "@material-ui/icons/Streetview";
-import PetsIcon from "@material-ui/icons/Pets";
-import DetailsIcon from "@material-ui/icons/Details";
-import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
-import { Carousel } from "antd";
-import "antd/dist/antd.css";
-import Reunion1 from "../../Icons/Reunion1.jpeg";
-// import Reunion2 from "../../Icons/Reunion2.jpeg";
-import Reunion3 from "../../Icons/Reunion3.jpeg";
-import Reunion4 from "../../Icons/Reunion4.jpeg";
-import Reunion6 from "../../Icons/Reunion6.jpeg";
-import FileUpload from "../Upload/upload";
-import "./home.css";
-import GoogleMap from "../GoogleMaps/GoogleMap";
+import clsx from "clsx";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+// import CardMedia from "@material-ui/core/CardMedia";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Collapse from "@material-ui/core/Collapse";
+// import Avatar from "@material-ui/core/Avatar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+// import { red } from "@material-ui/core/colors";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import ShareIcon from "@material-ui/icons/Share";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+// import MoreVertIcon from "@material-ui/icons/MoreVert";
+import PropTypes from "prop-types";
+
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
 import FooterComponent from "../Footer/footer";
 
-// Image Carousel
-const contentStyle = {
-  height: "350px",
-  color: "#fff",
-  lineHeight: "160px",
-  width: "60%",
-  textAlign: "center",
-  background: "#FFFFFF",
-  marginLeft: "20%",
-  marginTop: "1%",
+import Box from "@material-ui/core/Box";
+import { Redirect } from "react-router";
+
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
 };
 
-const petReportTypes = [
-  {
-    value: "Lost",
-    label: "Lost",
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+const useTabStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: "#CCD2D1", //tab content color
   },
-  {
-    value: "Sighting",
-    label: "Sighting",
-  },
-  {
-    value: "Found",
-    label: "Found",
-  },
-  {
-    value: "Found Deceased",
-    label: "Found Deceased",
-  },
-];
+}));
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "25ch",
-    },
+    maxWidth: 745,
+    marginTop: "3%",
+    backgroundColor: "#828282", //card color
   },
-
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: "30ch",
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
   },
-}));
-
-const useGridStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
   },
-  paper: {
-    padding: theme.spacing(3),
-    textAlign: "left",
-    color: theme.palette.text.secondary,
+  expandOpen: {
+    transform: "rotate(180deg)",
   },
 }));
 
-// const DropdownStyles = makeStyles((theme) => ({
-//   root: {
-//     "& .MuiTextField-root": {
-//       margin: theme.spacing(1),
-//       width: "25ch",
-//     },
-//   },
-// }));
-
-export default function Home(props) {
+export default function LandingPage() {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState(false);
-  const [ButtonGroup, setButtonGroup] = React.useState("left");
-  const GridStyles = useGridStyles();
+  const [expanded, setExpanded] = React.useState(false);
 
-  const handleBtnGroup = (event, newButtonGroup) => {
-    setButtonGroup(newButtonGroup);
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
   };
 
-  // const Dropdown = DropdownStyles();
-  const [ReportType, setReportType] = React.useState("EUR");
+  const tabClasses = useTabStyles();
+  const [value, setValue] = React.useState(0);
 
-  const handleDropDownChange = (event) => {
-    setReportType(event.target.value);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
-
-  const displayImages = () => {
-    let images = [Reunion1, Reunion6, Reunion3, Reunion4];
-    // let htmlCode = [];
+  const renderCard = () => {
     return (
       <>
-        <Paper elevation={10} style={contentStyle} justify="center">
-          <Carousel autoplay effect="fade">
-            {images.map((img) => {
-              return (
-                <div>
-                  <img
-                    src={img}
-                    style={{
-                      width: "100%",
-                      height: "350px",
-                    }}
-                    alt=""
-                  ></img>
-                </div>
-              );
-            })}
-          </Carousel>
-        </Paper>
+        {localStorage.getItem("userProfile") ? "" : <Redirect to="/" />}
+        <div style={{ marginLeft: "10%", marginRight: "10%" }}>
+          <Card className={classes.root} elevation={15}>
+            <CardHeader title="Pet Name" subheader="Lost Date" />
+            {/* tabs starts from here */}
+            <div className={tabClasses.root}>
+              <AppBar position="static">
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="simple tabs example"
+                  style={{ background: "darkgrey" }}
+                >
+                  <Tab label="Image" {...a11yProps(0)} />
+                  <Tab label="Details" {...a11yProps(1)} />
+                  <Tab label="Location" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+            </div>
+
+            {/* tabs end here */}
+
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Pet description
+                <br></br>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s,
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+              <IconButton
+                className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </IconButton>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent>
+                <Typography paragraph>Details</Typography>
+                <Typography paragraph>
+                  Heat 1/2 cup of the broth in a pot until simmering, add
+                  saffron and set aside for 10 minutes.
+                </Typography>
+                <Typography paragraph>
+                  Heat oil in a (14- to 16-inch) paella pan or a large, deep
+                  skillet over medium-high heat. Add chicken, shrimp and
+                  chorizo, and cook, stirring occasionally until lightly
+                  browned, 6 to 8 minutes. Transfer shrimp to a large plate and
+                  set aside, leaving chicken and chorizo in the pan. Add
+                  pimentón, bay leaves, garlic, tomatoes, onion, salt and
+                  pepper, and cook, stirring often until thickened and fragrant,
+                  about 10 minutes. Add saffron broth and remaining 4 1/2 cups
+                  chicken broth; bring to a boil.
+                </Typography>
+                <Typography paragraph>
+                  Add rice and stir very gently to distribute. Top with
+                  artichokes and peppers, and cook without stirring, until most
+                  of the liquid is absorbed, 15 to 18 minutes. Reduce heat to
+                  medium-low, add reserved shrimp and mussels, tucking them down
+                  into the rice, and cook again without stirring, until mussels
+                  have opened and rice is just tender, 5 to 7 minutes more.
+                  (Discard any mussels that don’t open.)
+                </Typography>
+                <Typography>
+                  Set aside off of the heat to let rest for 10 minutes, and then
+                  serve.
+                </Typography>
+              </CardContent>
+            </Collapse>
+          </Card>
+        </div>
+        <FooterComponent></FooterComponent>
       </>
     );
   };
 
-  // const carouselText = () => {
-  //   return (
-  //     <>
-  //       <Carousel autoplay effect="fade">
-  //         <div>This is just a text</div>
-  //       </Carousel>
-  //     </>
-  //   );
-  // };
-
-  return (
-    <div>
-      <div style={{ marginLeft: "10%", marginRight: "10%" }}>
-        <div>{displayImages()}</div>
-
-        <div className={GridStyles.root}>
-          <Grid container spacing={3}>
-            <Grid item xs={8}>
-              <h1 className="appHeadings">Details</h1>
-              <Paper
-                className={GridStyles.paper}
-                elevation={8}
-                style={{ backgroundColor: "#D3D3D3" }}
-                // ------------------left coloum back ground color
-              >
-                {/* text fields  grid start from here */}
-                <Grid container spacing={3} alignItems="center">
-                  <h3 className="appSubHeadings">Date lost or found</h3>
-                  An accurate lost or found date is critical for finding
-                  possible matches. Please double check your selection. For lost
-                  pets, use the date your pet went missing.
-                  <Grid item xs={12}>
-                    <Paper className={GridStyles.paper}>
-                      <Row alignItems="center">
-                        <DateRangeIcon />
-                        <TextField
-                          id="outlined-basic"
-                          required
-                          label="Lost or Found Date"
-                          type="date"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                        />
-                      </Row>
-                    </Paper>
-                    <Row>
-                      <h3
-                        className="appSubHeadings"
-                        style={{ marginTop: "1%" }}
-                      >
-                        Contact Information
-                      </h3>
-                    </Row>
-                    <Paper className={GridStyles.paper}>
-                      <Row>
-                        <EmailIcon />
-                        <TextField
-                          id="outlined-basic"
-                          required
-                          label="Email ID of the Owner"
-                          type="text"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                        ></TextField>
-                      </Row>
-                    </Paper>
-                    <Paper className={GridStyles.paper}>
-                      <Row>
-                        <PhoneIcon />
-                        {""}
-                        <Checkbox
-                          checked={checked}
-                          onChange={handleChange}
-                          color="primary"
-                          inputProps={{ "aria-label": "secondary checkbox" }}
-                        />
-                        Display Phone?
-                      </Row>
-                    </Paper>
-
-                    <Paper className={GridStyles.paper}>
-                      {" "}
-                      <Row>
-                        <PhoneAndroidIcon />
-
-                        <TextField
-                          id="outlined-number"
-                          required
-                          label="Phone Number"
-                          type="Phone Number"
-                          className={classes.textField}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          variant="outlined"
-                        />
-                      </Row>
-                    </Paper>
-                    <Row>
-                      <h3
-                        className="appSubHeadings"
-                        style={{ marginTop: "1%" }}
-                      >
-                        Pet Information
-                      </h3>
-                    </Row>
-                    <Paper className={GridStyles.paper}>
-                      {" "}
-                      <Row>
-                        <StreetviewIcon />
-                        <TextField
-                          id="outlined-select-ReportType"
-                          required
-                          select
-                          label="Report Type"
-                          className={classes.textField}
-                          value={ReportType}
-                          onChange={handleDropDownChange}
-                          variant="outlined"
-                        >
-                          {petReportTypes.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </Row>
-                    </Paper>
-                    <Paper className={GridStyles.paper}>
-                      {" "}
-                      <Row>
-                        <DetailsIcon />
-
-                        <TextField
-                          id="outlined-basic"
-                          required
-                          helperText="Identifying Markings and Features"
-                          label="Description of the pet"
-                          multiline
-                          className={classes.textField}
-                          style={{ width: "50ch" }}
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          rows={4}
-                          variant="outlined"
-                        />
-                      </Row>
-                    </Paper>
-                    <Paper className={GridStyles.paper}>
-                      <Row>
-                        <PetsIcon />
-                        <ToggleButtonGroup
-                          value={ButtonGroup}
-                          exclusive
-                          className={classes.textField}
-                          onChange={handleBtnGroup}
-                          style={{ backgroundColor: "#FFFFFF" }}
-                          aria-label="text alignment"
-                        >
-                          <ToggleButton value="Other" aria-label="justified">
-                            Other
-                          </ToggleButton>
-                          <ToggleButton value="Dog" aria-label="left aligned">
-                            Dog
-                          </ToggleButton>
-
-                          <ToggleButton value="Cat" aria-label="centered">
-                            Cat
-                          </ToggleButton>
-                          <ToggleButton value="Bird" aria-label="right aligned">
-                            Bird
-                          </ToggleButton>
-                          <ToggleButton value="Horse" aria-label="justified">
-                            Horse
-                          </ToggleButton>
-                          <ToggleButton value="Pig" aria-label="justified">
-                            Pig
-                          </ToggleButton>
-                          <ToggleButton value="Rabbit" aria-label="justified">
-                            Rabbit
-                          </ToggleButton>
-                          <ToggleButton value="Reptile" aria-label="justified">
-                            Reptile
-                          </ToggleButton>
-                          <ToggleButton value="Mammal" aria-label="justified">
-                            Mammal
-                          </ToggleButton>
-                        </ToggleButtonGroup>
-                      </Row>
-                    </Paper>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </Grid>
-            {/* --------------------------------Right side column with upload------------------------------------*/}
-            <Grid item xs={4}>
-              <h1 className="appHeadings">Additional Information</h1>
-
-              <Paper
-                className={GridStyles.paper}
-                justify="center"
-                elevation={8}
-                style={{ backgroundColor: "#D3D3D3" }}
-              >
-                <h3 className="appSubHeadings">Upload a picture</h3>
-                Uploading a picture increases the chances of a successful
-                reunion.
-                <div style={{ marginLeft: "35%" }}>
-                  <FileUpload />
-                </div>
-              </Paper>
-              <Paper
-                className={GridStyles.paper}
-                style={{
-                  marginTop: "40px",
-                  backgroundColor: "#D3D3D3",
-                  height: "70%",
-                }}
-                elevation={8}
-              >
-                {" "}
-                <h3 className="appSubHeadings">Location</h3>
-                Location where you have lost or found a pet.
-                <div
-                  style={{
-                    position: "absolute",
-                    width: "23%",
-                    height: "30%",
-                    marginTop: "10px",
-                  }}
-                >
-                  <GoogleMap />
-                </div>
-              </Paper>
-            </Grid>
-          </Grid>
-        </div>
-      </div>
-      <FooterComponent></FooterComponent>
-    </div>
-  );
+  return <>{renderCard()}</>;
 }

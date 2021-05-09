@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "antd/dist/antd.css";
 // import { Image } from "antd";
-import homeIcon from "../../Icons/p2.png";
-import { Row, Col } from "antd";
+// import homeIcon from "../../Icons/p2.png";
+import { Row } from "antd";
 // import { Input } from "antd";
 // import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -12,7 +12,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import LockIcon from "@material-ui/icons/Lock";
 import Button from "@material-ui/core/Button";
 // import Icon from "@material-ui/core/Icon";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
 import axios from "axios";
 import backendServer from "../../webconfig";
 // import Divider from "@material-ui/core/Divider";
@@ -34,39 +34,39 @@ class Login extends Component {
   //   },
   // }));
 
-  showGoogleSignIn = () => {
-    return (
-      <>
-        <Row
-          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
-          style={{
-            marginTop: "5%",
-            textAlign: "center",
-            justifyContent: "center",
-          }}
-        >
-          <h2 className="appSubHeadings">Sign in with your google account </h2>
-        </Row>
-        <Row
-          style={{
-            width: "200px",
-            fontSize: "x-large",
-            justifyContent: "flex-end",
-            marginLeft: "30px",
-            marginTop: "10%",
-          }}
-        >
-          <GoogleLogin
-            clientId="363955406428-i39idmlthf9itoi52qbdsm9l2e2kif8l.apps.googleusercontent.com"
-            buttonText="Google Login"
-            onSuccess={this.responseGoogle}
-            onFailure={this.responseGoogle}
-            cookiePolicy={"single_host_origin"}
-          />
-        </Row>
-      </>
-    );
-  };
+  // showGoogleSignIn = () => {
+  //   return (
+  //     <>
+  //       <Row
+  //         gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+  //         style={{
+  //           marginTop: "5%",
+  //           textAlign: "center",
+  //           justifyContent: "center",
+  //         }}
+  //       >
+  //         <h2 className="appSubHeadings">Sign in with your google account </h2>
+  //       </Row>
+  //       <Row
+  //         style={{
+  //           width: "200px",
+  //           fontSize: "x-large",
+  //           justifyContent: "flex-end",
+  //           marginLeft: "30px",
+  //           marginTop: "10%",
+  //         }}
+  //       >
+  //         <GoogleLogin
+  //           clientId="363955406428-i39idmlthf9itoi52qbdsm9l2e2kif8l.apps.googleusercontent.com"
+  //           buttonText="Google Login"
+  //           onSuccess={this.responseGoogle}
+  //           onFailure={this.responseGoogle}
+  //           cookiePolicy={"single_host_origin"}
+  //         />
+  //       </Row>
+  //     </>
+  //   );
+  // };
 
   signIn = () => {
     if (this.state.email && this.state.password) {
@@ -79,8 +79,9 @@ class Login extends Component {
         .then((response) => {
           // console.log(response);
           if (response.status === 200) {
-            sessionStorage.setItem("loggedInType", "admin");
-            sessionStorage.setItem("id", response.data._id);
+            // sessionStorage.setItem("loggedInType", "admin");
+            // sessionStorage.setItem("id", response.data._id);
+            localStorage.setItem("userProfile", JSON.stringify(response.data));
             this.props.history.push("/home");
           }
         })
@@ -102,9 +103,8 @@ class Login extends Component {
         .post(backendServer + "/admin/signup", data)
         .then((response) => {
           if (response.status === 200) {
-            sessionStorage.setItem("loggedInType", "admin");
-            sessionStorage.setItem("id", response.data._id);
             // window.alert("Sign up complete");
+            localStorage.setItem("userProfile", JSON.stringify(response.data));
             this.props.history.push("/home");
           }
         })
@@ -239,42 +239,21 @@ class Login extends Component {
       </>
     );
   };
-  responseGoogle = (response) => {
-    console.log(response);
-  };
+  // responseGoogle = (response) => {
+  //   console.log(response);
+  // };
 
   render() {
     console.log(this.state);
     return (
       <>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-          {/* <Col className="gutter-row" span={12}>
-            Content
-          </Col> */}
-
-          <Col className="gutter-row" span={12}>
-            <Row
-              gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
-              style={{ height: "40%" }}
-            >
-              {/* <img
-                src={homeIcon}
-                elevation={10}
-                style={{ width: "70%", maxHeight: "100%", marginTop: "2%" }}
-                alt=""
-              /> */}
-            </Row>
-            <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-              <Col className="gutter-row" span={12}>
-                {this.showGoogleSignIn()}
-              </Col>
-              {/* <Divider orientation="vertical" flexItem /> */}
-              <Col className="gutter-row" span={12}>
-                {this.showSignInContent()}
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <div style={{ width: "50%", margin: "auto" }}>
+          {this.showSignInContent()}
+        </div>
+        <div className="row">
+          <div className="col">Login</div>
+          <div className="col"></div>
+        </div>
       </>
     );
   }
