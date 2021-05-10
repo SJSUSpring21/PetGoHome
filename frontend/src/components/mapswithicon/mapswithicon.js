@@ -62,8 +62,8 @@ function Map() {
         <GoogleMap
           defaultZoom={10}
           defaultCenter={{
-            lat: 37.0902,
-            lng: 95.7129,
+            lat: Number(locations[0].latitude),
+            lng: Number(locations[0].longitude),
           }}
           // defaultOptions={{ styles: mapStyles }}
         >

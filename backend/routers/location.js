@@ -7,8 +7,16 @@ const router = express.Router();
 app.post("/getLocations", async (req, res) => {
   try {
     const loc = await db.Data.findAll({
-      // limit: 10,
-      attributes: ["id", "lost_location", "latitude", "longitude"],
+      limit: 10,
+      attributes: [
+        "id",
+        "lost_location",
+        "latitude",
+        "longitude",
+        "record_type",
+        "type",
+        "breed",
+      ],
     });
     res.status(200).send(loc);
   } catch (error) {
