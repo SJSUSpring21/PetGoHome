@@ -17,6 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     lost_zip: { type: DataTypes.STRING },
     picture: { type: DataTypes.STRING },
     lost_location: { type: DataTypes.STRING },
+    latitude: { type: DataTypes.STRING },
+    longitude: { type: DataTypes.STRING },
+    location: { type: DataTypes.STRING },
   });
 
   return Data;

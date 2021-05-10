@@ -7,15 +7,9 @@ const router = express.Router();
 app.post("/getLocations", async (req, res) => {
   try {
     const loc = await db.Data.findAll({
-      limit: 10,
-      where: {
-        latitude: { [Op.eq]: null },
-        latitude: { [Op.eq]: null },
-        lost_location: { [Op.ne]: null },
-      },
-      attributes: ["id", "lost_location"],
+      // limit: 10,
+      attributes: ["id", "lost_location", "latitude", "longitude"],
     });
-    //console.log(loc);
     res.status(200).send(loc);
   } catch (error) {
     console.log(error);
@@ -44,8 +38,7 @@ app.post("/setLatLong", async (req, res) => {
   try {
     await db.Data.update(
       {
-        latitude: req.body.latitude,
-        longitude: req.body.longitude,
+        location: req.body.loc,
       },
       {
         where: { id: req.body.id },
