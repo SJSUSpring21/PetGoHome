@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     latitude: { type: DataTypes.STRING },
     longitude: { type: DataTypes.STRING },
     location: { type: DataTypes.STRING },
+    image: { type: DataTypes.STRING },
   });
 
   return Data;

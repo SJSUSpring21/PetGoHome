@@ -3,18 +3,39 @@ const db = require("../models");
 const app = require("../app");
 const { Op } = require("sequelize");
 const router = express.Router();
+const Promise = require("bluebird");
 
 app.post("/getLocations", async (req, res) => {
   try {
     const loc = await db.Data.findAll({
-      // limit: 10,
-      attributes: ["id", "lost_location", "latitude", "longitude"],
+      where: {
+        location: {
+          [Op.and]: [
+            { [Op.substring]: req.body.city },
+            { [Op.substring]: " " + req.body.state + " " },
+            { [Op.substring]: req.body.pin },
+          ],
+        },
+      },
+      attributes: ["id", "latitude", "longitude", "location", "picture"],
     });
     res.status(200).send(loc);
   } catch (error) {
     console.log(error);
   }
 });
+
+// app.post("/dogPopulate", async (req, res) => {
+//   try {
+//     const loc = await db.Data.destroy({
+//       where: {
+//         image: { [Op.eq]: null },
+//       },
+//     });
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 // app.post("/setLatLong", async (req, res) => {
 //   console.log(req.body);
