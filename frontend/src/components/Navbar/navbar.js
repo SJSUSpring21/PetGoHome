@@ -12,7 +12,7 @@ import p4 from "../../Icons/p4.webp";
 // import { Card } from "antd";
 import "./footer.css";
 import { Link } from "react-router-dom";
-// import LandingPage from "./../landingPage/landingPage";
+import LandingPage from "./../landingPage/landingPage";
 import "./navbar.css";
 // import { Row, Col } from "react-bootstrap";
 
@@ -40,114 +40,91 @@ class Navbar extends Component {
     console.log(this.props);
     console.log(this.state);
     return (
-      // <div>
-      <div
-        style={{
-          display: "block",
-          height: "100px",
-          width: "100%",
-        }}
-      >
+      <>
         <div
-          id="navSticky"
           style={{
-            position: "fixed",
+            display: "block",
+            height: "100px",
             width: "100%",
-            backgroundColor: "#fff",
-            padding: "5px 5%",
-            zIndex: "5",
-            transition: "0.3s all ease",
-            boxShadow: "0px 1px 10px -5px #777",
           }}
         >
-          <div className="row">
-            <div className="col-5">
-              <Link
-                style={{
-                  color: "black",
-                  fontWeight: "800",
-                  fontFamily: "Georgia, serif",
-                  display: "flex",
-                }}
-                to="/home"
-              >
-                <div style={{ fontFamily: "Sirin Stencil", fontSize: "28px" }}>
-                  PetGoHome
-                </div>
-                <img
-                  src={p4}
+          <div
+            id="navSticky"
+            style={{
+              position: "fixed",
+              width: "100%",
+              backgroundColor: "#fff",
+              padding: "5px 5%",
+              zIndex: "5",
+              transition: "0.3s all ease",
+              boxShadow: localStorage.getItem("userProfile")
+                ? "0px 1px 10px -5px #777"
+                : "",
+            }}
+          >
+            <div className="row">
+              <div className="col-5">
+                <Link
                   style={{
-                    width: "45px",
-                    height: "45px",
-                    marginLeft: "7px",
+                    color: "black",
+                    fontWeight: "800",
+                    fontFamily: "Georgia, serif",
+                    display: "flex",
                   }}
-                  alt=""
-                ></img>
-              </Link>
-            </div>
-            <div
-              className="col-7"
-              style={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              {localStorage.getItem("userProfile") ? (
-                <>
-                  <div className="navbar-buttons">
-                    <Link
-                      className="navbar-links"
-                      style={{
-                        color: "black",
-                        fontWeight: "540",
-                        fontFamily: "Georgia, serif",
-                      }}
-                      to="/home"
-                    >
-                      Home
-                    </Link>
+                  to="/home"
+                >
+                  <div
+                    style={{ fontFamily: "Sirin Stencil", fontSize: "28px" }}
+                  >
+                    PetGoHome
                   </div>
-                  <div className="navbar-buttons" style={{ width: "205px" }}>
-                    <Link
-                      className="navbar-links"
-                      style={{
-                        color: "black",
-                        fontWeight: "540",
-                        fontFamily: "Georgia, serif",
-                      }}
-                      to="/lostorfound"
-                    >
-                      I Found Or Lost a Pet
-                    </Link>
-                  </div>
-                  <div className="navbar-buttons">
-                    <Link
-                      className="navbar-links"
-                      style={{
-                        color: "black",
-                        fontWeight: "540",
-                        fontFamily: "Georgia, serif",
-                      }}
-                      to="/whomtocontact"
-                    >
-                      Contact
-                    </Link>
-                  </div>
-                  <div className="navbar-buttons">
-                    <Link
-                      className="navbar-links"
-                      style={{
-                        color: "black",
-                        fontWeight: "540",
-                        fontFamily: "Georgia, serif",
-                      }}
-                      to="/stolenpets"
-                    >
-                      Stolen Pets
-                    </Link>
-                  </div>
-                </>
-              ) : (
-                ""
-              )}
-              {localStorage.getItem("userProfile") ? (
+                  <img
+                    src={p4}
+                    style={{
+                      width: "45px",
+                      height: "45px",
+                      marginLeft: "7px",
+                    }}
+                    alt=""
+                  ></img>
+                </Link>
+              </div>
+              <div
+                className="col-7"
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                {localStorage.getItem("userProfile") ? (
+                  <>
+                    <div className="navbar-buttons">
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Georgia, serif",
+                        }}
+                        to="/home"
+                      >
+                        Home
+                      </Link>
+                    </div>
+                    <div className="navbar-buttons" style={{ width: "205px" }}>
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Georgia, serif",
+                        }}
+                        to="/lostorfound"
+                      >
+                        I Found Or Lost a Pet
+                      </Link>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
                 <div className="navbar-buttons">
                   <Link
                     className="navbar-links"
@@ -155,19 +132,12 @@ class Navbar extends Component {
                       color: "black",
                       fontWeight: "540",
                       fontFamily: "Georgia, serif",
-                      border: "2px solid #555",
-                      borderRadius: "10px",
-                      marginLeft: "10px",
                     }}
-                    to="/"
-                    onClick={() => {
-                      localStorage.clear();
-                    }}
+                    to="/whomtocontact"
                   >
-                    Log Out
+                    Contact
                   </Link>
                 </div>
-              ) : (
                 <div className="navbar-buttons">
                   <Link
                     className="navbar-links"
@@ -175,23 +145,70 @@ class Navbar extends Component {
                       color: "black",
                       fontWeight: "540",
                       fontFamily: "Georgia, serif",
-                      border: "2px solid #555",
-                      borderRadius: "10px",
                     }}
-                    to="/login"
+                    to="/stolenpets"
                   >
-                    Login
+                    Stolen Pets
                   </Link>
                 </div>
-              )}
+
+                {localStorage.getItem("userProfile") ? (
+                  <div className="navbar-buttons">
+                    <Link
+                      className="navbar-links"
+                      style={{
+                        color: "black",
+                        fontWeight: "540",
+                        fontFamily: "Roboto",
+                        // border: "2px solid #555",
+                        // boxShadow:
+                        //   "20px 20px 41px #808080, -20px -20px 41px #eee",
+                        borderRadius: "10px",
+                        marginLeft: "10px",
+                      }}
+                      to="/"
+                      onClick={() => {
+                        localStorage.clear();
+                      }}
+                    >
+                      Log Out
+                    </Link>
+                  </div>
+                ) : (
+                  <div
+                    style={{
+                      width: "120px",
+                      padding: "3px 12px",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Link
+                      className="navbar-links"
+                      style={{
+                        color: "black",
+                        fontWeight: "540",
+                        fontFamily: "Roboto",
+                        boxShadow:
+                          "20px 20px 41px #808080, -20px -20px 41px #eee",
+                        // border: "2px solid #555",
+                        borderRadius: "10px",
+                      }}
+                      to="/login"
+                    >
+                      Login
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
-        {/* </Toolbar>
-        </AppBar> */}
-        {/* {this.props.location.pathname === "/" ? <LandingPage /> : ""} */}
-      </div>
-      // </div>
+        {this.props.location.pathname === "/" ? (
+          <LandingPage props={this.props} />
+        ) : (
+          ""
+        )}
+      </>
     );
   }
 }

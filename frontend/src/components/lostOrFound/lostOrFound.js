@@ -25,7 +25,6 @@ import Reunion6 from "../../Icons/Reunion6.jpeg";
 import FileUpload from "../Upload/upload";
 import "./lostOrFound.css";
 import GoogleMap from "../GoogleMaps/GoogleMap";
-import FooterComponent from "../Footer/footer";
 import { Redirect } from "react-router";
 
 // Image Carousel
@@ -388,7 +387,7 @@ export default function Home(props) {
           </Grid>
         </div>
       </div>
-      <FooterComponent></FooterComponent>
+      {/* <FooterComponent></FooterComponent> */}
     </div>
   );
 }
