@@ -8,16 +8,19 @@ const Promise = require("bluebird");
 app.post("/getLocations", async (req, res) => {
   try {
     const loc = await db.Data.findAll({
+      limit: 10,
       where: {
         location: {
           [Op.and]: [
-            { [Op.substring]: req.body.city },
-            { [Op.substring]: " " + req.body.state + " " },
-            { [Op.substring]: req.body.pin },
+            { [Op.substring]: req.body.city || "" },
+            {
+              [Op.substring]: req.body.state ? " " + req.body.state + " " : "",
+            },
+            { [Op.substring]: req.body.pin || "" },
           ],
         },
       },
-      attributes: ["id", "latitude", "longitude", "location", "picture"],
+      attributes: ["id", "latitude", "longitude", "location", "image"],
     });
     res.status(200).send(loc);
   } catch (error) {
