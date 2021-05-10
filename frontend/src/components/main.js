@@ -7,7 +7,7 @@ import LostOrFound from "./lostOrFound/lostOrFound";
 // import Maps from "./GoogleMaps/maps";
 // import FileUpload from "../components/Upload/upload";
 // import pdfGenerator from "./PDFgenerator/pdfgenerator";
-import Home from "./Home/home";
+import Home from "./home/home";
 import WhomToContact from "./Info/WhomToContact";
 import stolenpets from "./Info/stolenpets";
 import mapswithicon from "./mapswithicon/mapswithicon";

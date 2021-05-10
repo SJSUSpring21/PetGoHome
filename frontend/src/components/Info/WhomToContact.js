@@ -10,7 +10,6 @@ import PersonIcon from "@material-ui/icons/Person";
 import LocalHospitalIcon from "@material-ui/icons/LocalHospital";
 import allpets from "../../Icons/allpets.jpeg";
 import "./info.css";
-import FooterComponent from "../Footer/footer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,18 +28,26 @@ export default function WhomToContact() {
     <div>
       <div style={{ marginLeft: "10%", marginRight: "10%" }}>
         <br></br>
-        <h1 className="appHeadings">Whom to Contact</h1>
+        <h1
+          className="appHeadings"
+          style={{ fontFamily: "Roboto", marginLeft: "0" }}
+        >
+          Whom to Contact
+        </h1>
         <div className="wpb_column vc_column_container span12">
           <div className="vc_column-inner">
             <div className="wpb_wrapper">
               <div className="wpb_text_column wpb_content_element">
                 <div className="wpb_wrapper">
-                  <h2 className="appSubHeadings">
+                  <h2
+                    className="appSubHeadings"
+                    style={{ fontFamily: "Roboto" }}
+                  >
                     Please read about the various entities that deal with lost
                     and found pets. Then scroll down to learn how to identify
                     and contact the ones near you.
                   </h2>
-                  <p style={{ marginLeft: "7%" }}>
+                  <p style={{ marginLeft: "-30px" }}>
                     <img
                       className="aligncenter wp-image-7034 size-medium"
                       src={allpets}
@@ -63,7 +70,7 @@ export default function WhomToContact() {
                 elevation={8}
                 style={{ borderRadius: "45px", height: "250px" }}
               >
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <StarIcon></StarIcon>Police and Animal Control
                 </h2>
                 These are government agencies, usually municipal or county, that
@@ -84,7 +91,7 @@ export default function WhomToContact() {
                 elevation={8}
                 style={{ borderRadius: "45px", height: "250px" }}
               >
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <LockIcon></LockIcon>Pounds and Shelters
                 </h2>
                 Most urban municipalities maintain a “pound” or a shelter. Many
@@ -109,9 +116,9 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px", height: "380px" }}
+                style={{ borderRadius: "45px", height: "420px" }}
               >
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <HomeIcon></HomeIcon>Humane Societies
                 </h2>
                 These are generally private entities and usually non-profit.
@@ -142,9 +149,9 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px", height: "380px" }}
+                style={{ borderRadius: "45px", height: "420px" }}
               >
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <PersonIcon></PersonIcon>Rescue Groups
                 </h2>
                 Rescues are usually small organizations, sometimes only a single
@@ -160,7 +167,7 @@ export default function WhomToContact() {
                 a special breed, it would be a good idea to contact the
                 appropriate rescue group.
                 <br></br>
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <LocalHospitalIcon></LocalHospitalIcon>Veterinarians
                 </h2>
                 Just use a search engine like Google and key in “Veterinarians
@@ -178,7 +185,7 @@ export default function WhomToContact() {
                 elevation={8}
                 style={{ borderRadius: "45px" }}
               >
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   How To Identify the Agencies Near You
                 </h2>
                 It is vital to check all the agencies near you where a lost pet
@@ -189,7 +196,7 @@ export default function WhomToContact() {
                 contact simply by asking.
                 <br></br>
                 <br></br>
-                <strong style={{ color: "#008000" }}>
+                <strong style={{ color: "#008000", fontFamily: "Roboto" }}>
                   Using the suggestions on this page, draw up a list: police,
                   animal control, shelters, humane societies, vets and rescue
                   groups. Recruit friends and family to help you. Divvy up the
@@ -197,18 +204,20 @@ export default function WhomToContact() {
                 </strong>
                 <br></br>
                 <br></br>
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   Sites with Directories For Shelters, Humane Societies and
                   Rescue Groups
                 </h2>
-                <ul>
-                  <li>
+                <ul style={{ fontFamily: "Roboto" }}>
+                  <li style={{ fontFamily: "Roboto" }}>
                     <a
                       href="http://www.petfinder.com/animal-shelters-and-rescues/search/"
                       // target="_blank"
                       rel="noopener"
                     >
-                      <strong>PetFinder&nbsp;</strong>
+                      <strong style={{ fontFamily: "Roboto" }}>
+                        PetFinder&nbsp;
+                      </strong>
                     </a>
                     <br></br>
                     Petfinder has the most comprehensive, and it has the best
@@ -227,21 +236,25 @@ export default function WhomToContact() {
                     important!
                   </li>
                   <br></br>
-                  <li>
+                  <li style={{ fontFamily: "Roboto" }}>
                     <a
                       href="http://theshelterpetproject.org/shelters"
                       // target="_blank"
                       rel="noopener"
                     >
-                      <strong>The Shelter Project</strong>
+                      <strong style={{ fontFamily: "Roboto" }}>
+                        The Shelter Project
+                      </strong>
                     </a>
                     <br></br>
                     Information mostly overlaps Petfinder
                   </li>
                   <br></br>
-                  <li>
+                  <li style={{ fontFamily: "Roboto" }}>
                     <a href="http://animalshelter.org/">
-                      <strong>AnimalShelter.org</strong>
+                      <strong style={{ fontFamily: "Roboto" }}>
+                        AnimalShelter.org
+                      </strong>
                     </a>
                     <br></br>
                     Another directory with humane societies and rescues. There
@@ -251,7 +264,9 @@ export default function WhomToContact() {
                   </li>
                   <br></br>
                 </ul>
-                <h2 className="appHeadings">Internet Search Engines</h2>
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
+                  Internet Search Engines
+                </h2>
                 You can also take advantage of search engines to identify the
                 agencies near you. We recommend using the following keywords in
                 the query box: “Animal shelters near (your city)?” or “Animal
@@ -260,12 +275,12 @@ export default function WhomToContact() {
                 and “pet rescue groups” near you.
                 <br></br>
                 <br></br>
-                <h2 className="appHeadings">
+                <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   Web Sites That Offer Pet Finding Contact Services For a Fee
                   <br></br>
                   CAUTION ADVISED
                 </h2>
-                <p>
+                <p style={{ fontFamily: "Roboto" }}>
                   You will find several by searching “lost pet finder service”.
                   Some can be very helpful; others are really just out to make a
                   fast buck with claims to unrealistically high success rates.
@@ -273,7 +288,7 @@ export default function WhomToContact() {
                   their reviews. (Search “reviews of <em>name of web site”</em>)
                   also check with the Better Business Bureau in the area they
                   are located.&nbsp;
-                  <em>
+                  <em style={{ fontFamily: "Roboto" }}>
                     Note that some of these services try to outrun their bad
                     reputation by changing their name. Beware of sites that
                     operate under several names.
@@ -282,7 +297,7 @@ export default function WhomToContact() {
                   postcard mailings to neighbors and vets can be very helpful
                   but robo-calls, emails and even faxes to shelters are really
                   NOT effective.
-                  <strong>
+                  <strong style={{ fontFamily: "Roboto" }}>
                     {" "}
                     You must go to the shelters in person and often.
                   </strong>
@@ -292,7 +307,7 @@ export default function WhomToContact() {
           </Grid>
         </div>
       </div>
-      <FooterComponent></FooterComponent>
+      {/* <FooterComponent></FooterComponent> */}
     </div>
   );
 }

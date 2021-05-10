@@ -9,21 +9,21 @@ import {
 import { GoogleURL } from "../../config";
 import backendServer from "../../webconfig";
 import axios from "axios";
-import ico from "../../Icons/p2.png";
+// import ico from "../../Icons/p2.png";
 import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 import States from "../data/states";
 import Cities from "../data/cities";
 import MenuItem from "@material-ui/core/MenuItem";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: "55ch",
-    },
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     "& .MuiTextField-root": {
+//       margin: theme.spacing(1),
+//       width: "55ch",
+//     },
+//   },
+// }));
 
 function Map() {
   const [locations, setLocations] = useState(null);
@@ -109,9 +109,12 @@ function Map() {
 const MapWrapped = withScriptjs(withGoogleMap(Map));
 
 export default function App() {
-  const classes = useStyles();
+  // const classes = useStyles();
   const [State, setState] = useState("All");
-  const [City, setCity] = useState("All");
+  const [
+    City,
+    //  setCity
+  ] = useState("All");
 
   const handleStateChange = (event) => {
     setState(event.target.value);

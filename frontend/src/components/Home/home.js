@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -16,20 +16,11 @@ import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import MoreVertIcon from "@material-ui/icons/MoreVert";
 import PropTypes from "prop-types";
-import axios from "axios";
+
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import FooterComponent from "../Footer/footer";
-import backendServer from "../../webconfig";
-import { GoogleURL } from "../../config";
-import {
-  withGoogleMap,
-  withScriptjs,
-  GoogleMap,
-  Marker,
-  InfoWindow,
-} from "react-google-maps";
+
 import Box from "@material-ui/core/Box";
 import { Redirect } from "react-router";
 
@@ -98,210 +89,88 @@ const useStyles = makeStyles((theme) => ({
 export default function LandingPage() {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const [locations, setLocations] = useState(null);
-  const [value, setValue] = React.useState([]);
-  useEffect(() => {
-    axios
-      .post(backendServer + "/getLocations")
-      .then((response) => {
-        if (response.data.length > 0) {
-          setLocations(response.data);
-          let values = Array(response.data.length).fill(0);
-          setValue(values);
-        }
-      })
-
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   const tabClasses = useTabStyles();
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
-    console.log(event.target.name);
-    // console.log(val);
-    console.log(newValue);
-    let updatedValue = Object.assign(value);
-    updatedValue[Number(newValue.split("-")[0])] = Number(
-      newValue.split("-")[1]
-    );
-    console.log(updatedValue);
-    setValue([...updatedValue]);
+    setValue(newValue);
   };
 
   const renderCard = () => {
     return (
       <>
         {localStorage.getItem("userProfile") ? "" : <Redirect to="/" />}
-        {console.log(value)}
-        {locations
-          ? locations.map((location, idx) => (
-              <div
-                style={{ marginLeft: "10%", marginRight: "10%" }}
-                key={location.id}
+        <div style={{ marginLeft: "10%", marginRight: "10%" }}>
+          <Card className={classes.root} elevation={15}>
+            <CardHeader title="Pet Name" subheader="Lost Date" />
+            {/* tabs starts from here */}
+            <div className={tabClasses.root}>
+              <AppBar position="static">
+                <Tabs
+                  value={value}
+                  onChange={handleChange}
+                  aria-label="simple tabs example"
+                  style={{ background: "darkgrey" }}
+                >
+                  <Tab label="Image" {...a11yProps(0)} />
+                  <Tab label="Details" {...a11yProps(1)} />
+                  <Tab label="Location" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+              <TabPanel value={value} index={0}>
+                Item One
+              </TabPanel>
+              <TabPanel value={value} index={1}>
+                Item Two
+              </TabPanel>
+              <TabPanel value={value} index={2}>
+                Item Three
+              </TabPanel>
+            </div>
+
+            {/* tabs end here */}
+
+            <CardContent>
+              <Typography variant="body2" color="textSecondary" component="p">
+                Pet description
+                <br></br>
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s,
+              </Typography>
+            </CardContent>
+            <CardActions disableSpacing>
+              <IconButton aria-label="add to favorites">
+                <FavoriteIcon />
+              </IconButton>
+              <IconButton aria-label="share">
+                <ShareIcon />
+              </IconButton>
+              <IconButton
+                className={clsx(classes.expand, {
+                  [classes.expandOpen]: expanded,
+                })}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
               >
-                <Card className={classes.root} elevation={15}>
-                  <CardHeader title={location.breed} subheader="Lost Date" />
-                  {/* tabs starts from here */}
-                  <div className={tabClasses.root}>
-                    <AppBar position="static">
-                      <Tabs
-                        value={idx + "-" + value[idx]}
-                        id={idx}
-                        onChange={handleChange}
-                        aria-label="simple tabs example"
-                        style={{ background: "darkgrey" }}
-                      >
-                        <Tab
-                          value={idx + "-" + 0}
-                          label="Image"
-                          {...a11yProps(0)}
-                        />
-                        <Tab
-                          value={idx + "-" + 1}
-                          label="Details"
-                          {...a11yProps(1)}
-                        />
-                        <Tab
-                          value={idx + "-" + 2}
-                          label="Location"
-                          {...a11yProps(2)}
-                        />
-                      </Tabs>
-                    </AppBar>
-                    <TabPanel value={value[idx]} index={0}>
-                      Item One
-                    </TabPanel>
-                    <TabPanel value={value[idx]} index={1}>
-                      Item Two
-                    </TabPanel>
-                    <TabPanel value={value[idx]} index={2}>
-                      <div>
-                        <GoogleMap
-                          defaultZoom={10}
-                          defaultCenter={{
-                            lat: Number(locations[0].latitude),
-                            lng: Number(locations[0].longitude),
-                          }}
-                        >
-                          <Marker
-                            key={location.id}
-                            position={{
-                              lat: Number(location.latitude),
-                              lng: Number(location.longitude),
-                            }}
-                          />{" "}
-                        </GoogleMap>
-
-                        <MapWrapped
-                          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${GoogleURL}`}
-                          loadingElement={<div style={{ height: `100%` }} />}
-                          containerElement={<div style={{ height: `100%` }} />}
-                          mapElement={<div style={{ height: `100%` }} />}
-                        />
-                      </div>
-                    </TabPanel>
-                  </div>
-
-                  {/* tabs end here */}
-
-                  <CardContent>
-                    <Typography
-                      variant="body2"
-                      color="textSecondary"
-                      component="p"
-                    >
-                      Pet description
-                      <br></br>
-                      Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s,
-                    </Typography>
-                  </CardContent>
-                  <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
-                    <IconButton
-                      className={clsx(classes.expand, {
-                        [classes.expandOpen]: expanded,
-                      })}
-                      onClick={handleExpandClick}
-                      aria-expanded={expanded}
-                      aria-label="show more"
-                    >
-                      <ExpandMoreIcon />
-                    </IconButton>
-                  </CardActions>
-                  <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      <Typography paragraph>Details</Typography>
-                      <Typography paragraph>
-                        Heat 1/2 cup of the broth in a pot until simmering, add
-                        saffron and set aside for 10 minutes.
-                      </Typography>
-                      <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large,
-                        deep skillet over medium-high heat. Add chicken, shrimp
-                        and chorizo, and cook, stirring occasionally until
-                        lightly browned, 6 to 8 minutes. Transfer shrimp to a
-                        large plate and set aside, leaving chicken and chorizo
-                        in the pan. Add pimentón, bay leaves, garlic, tomatoes,
-                        onion, salt and pepper, and cook, stirring often until
-                        thickened and fragrant, about 10 minutes. Add saffron
-                        broth and remaining 4 1/2 cups chicken broth; bring to a
-                        boil.
-                      </Typography>
-                      <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with
-                        artichokes and peppers, and cook without stirring, until
-                        most of the liquid is absorbed, 15 to 18 minutes. Reduce
-                        heat to medium-low, add reserved shrimp and mussels,
-                        tucking them down into the rice, and cook again without
-                        stirring, until mussels have opened and rice is just
-                        tender, 5 to 7 minutes more. (Discard any mussels that
-                        don’t open.)
-                      </Typography>
-                      <Typography>
-                        Set aside off of the heat to let rest for 10 minutes,
-                        and then serve.
-                      </Typography>
-                    </CardContent>
-                  </Collapse>
-                </Card>
-              </div>
-            ))
-          : ""}
-
-        <FooterComponent></FooterComponent>
+                <ExpandMoreIcon />
+              </IconButton>
+            </CardActions>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
+              <CardContent></CardContent>
+            </Collapse>
+          </Card>
+        </div>
+        {/* <FooterComponent></FooterComponent> */}
       </>
     );
   };
 
   return <>{renderCard()}</>;
-}
-
-const MapWrapped = withScriptjs(withGoogleMap(Map));
-
-function App() {
-  return (
-    <div>
-      <div style={{ width: "50vh", height: "50vh" }}>
-        <MapWrapped
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${GoogleURL}`}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: `100%` }} />}
-          mapElement={<div style={{ height: `100%` }} />}
-        />
-      </div>
-    </div>
-  );
 }

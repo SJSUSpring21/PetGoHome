@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  // useState,
+  useEffect,
+} from "react";
 import {
   withGoogleMap,
   withScriptjs,
-  GoogleMap,
-  Marker,
-  InfoWindow,
+  // GoogleMap,
+  // Marker,
+  // InfoWindow,
 } from "react-google-maps";
-import PlacesAutocomplete, {
+import {
+  // PlacesAutocomplete,
   geocodeByAddress,
-  getLatLng,
+  // getLatLng,
 } from "react-places-autocomplete";
 import Button from "@material-ui/core/Button";
 import backendServer from "../../webconfig";
 import axios from "axios";
-import icon from "../../Icons/p4.webp";
+// import icon from "../../Icons/p4.webp";
 import { GoogleURL } from "../../config";
 
 function Map() {
-  const [locations, setLocations] = useState([{}]);
+  // const [locations, setLocations] = useState([{}]);
 
   const handleClick = () => {
     axios
@@ -26,6 +30,7 @@ function Map() {
         // setLocations(response.data);
         // console.log(response.data);
         if (response.data.length > 0) {
+          // eslint-disable-next-line
           response.data.map((location) => {
             console.log(location.id);
             geocodeByAddress(location.lost_location)
