@@ -53,7 +53,14 @@ export class MapContainer extends Component {
   render() {
     return (
       <div id="googleMap">
-        <div style={{ marginBottom: "40px" }}>
+        <div
+          style={{
+            position: "absolute",
+            top: "0",
+            width: "100%",
+            zIndex: "1",
+          }}
+        >
           <PlacesAutocomplete
             value={this.state.address}
             onChange={this.handleChange}
@@ -67,7 +74,12 @@ export class MapContainer extends Component {
             }) => (
               <div>
                 <input
-                  style={{ width: "400px" }}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #888",
+                    borderRadius: "5px",
+                    padding: "5px",
+                  }}
                   {...getInputProps({
                     placeholder: "Search Places ...",
                     className: "location-search-input",
@@ -99,8 +111,12 @@ export class MapContainer extends Component {
             )}
           </PlacesAutocomplete>
         </div>
-
         <Map
+          style={{
+            marginTop: "40px",
+            borderRadius: "5px",
+            border: "1px solid #999",
+          }}
           google={this.props.google}
           initialCenter={{
             lat: this.state.mapCenter.lat,

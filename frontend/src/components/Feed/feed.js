@@ -12,8 +12,8 @@ import Collapse from "@material-ui/core/Collapse";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 // import { red } from "@material-ui/core/colors";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import ShareIcon from "@material-ui/icons/Share";
+// import FavoriteIcon from "@material-ui/icons/Favorite";
+// import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Paper from "@material-ui/core/Paper";
@@ -22,7 +22,7 @@ import axios from "axios";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import FooterComponent from "../Footer/footer";
+// import FooterComponent from "../Footer/footer";
 import backendServer from "../../webconfig";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -34,7 +34,7 @@ import { Redirect } from "react-router";
 import PetLocation from "./petlocation";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
 import "./feed.css";
-import { PlacesAuto } from "./placesAuto";
+// import { PlacesAuto } from "./placesAuto";
 import Button from "@material-ui/core/Button";
 import background from "../../Icons/back.jpeg";
 
@@ -142,9 +142,9 @@ export default function Feed() {
     setValue([...updatedValue]);
   };
 
-  const onBookMarkClick = (event) => {
-    window.alert(event.target);
-  };
+  // const onBookMarkClick = (event) => {
+  //   window.alert(event.target);
+  // };
   const handleRadioChange = (event) => {
     setSpeciesValue(event.target.value);
   };
@@ -204,7 +204,7 @@ export default function Feed() {
                           "https://petgohome.s3-us-west-2.amazonaws.com/" +
                           location.image
                         }
-                        alt="pet image"
+                        alt="pet"
                         width="350"
                         height="300"
                       ></img>
@@ -241,7 +241,7 @@ export default function Feed() {
                       color="textSecondary"
                       component="p"
                     >
-                      {location.record_type + " - " + "location"}
+                      {location.record_type + " - location"}
                       <br></br>
 
                       {location.location +
@@ -363,7 +363,7 @@ export default function Feed() {
           <div
             style={{
               position: "-webkit-sticky",
-              position: "sticky",
+              // position: "sticky",
               top: "0",
               padding: "5%",
             }}

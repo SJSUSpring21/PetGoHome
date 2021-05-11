@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 class PetLocation extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
 
   render() {

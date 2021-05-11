@@ -18,3 +18,11 @@
   margin-bottom: 0;
   font-size: 25px;
 }
+
+.lostFound .row {
+  padding: 20px 0;
+}
+
+.lostFound .col {
+  padding: 0 20px;
+}
