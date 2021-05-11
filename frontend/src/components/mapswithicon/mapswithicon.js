@@ -58,7 +58,7 @@ function Map() {
 
   return (
     <>
-      {console.log(selectedlocation)}
+      {/* {console.log(selectedlocation)} */}
       {locations ? (
         <GoogleMap
           defaultZoom={4}
@@ -83,8 +83,21 @@ function Map() {
                   String(location.type) === "Dog"
                     ? "/dog.png"
                     : String(location.type) === "Cat"
-                    ? "/dog.png"
-                    : "/dog.png",
+                    ? "/cat.png"
+                    : String(location.type) === "Bird"
+                    ? "/bird.png"
+                    : String(location.type) === "Goat"
+                    ? "/goat.png"
+                    : String(location.type) === "Horse"
+                    ? "/horse.png"
+                    : String(location.type) === "Tortoise"
+                    ? "/tortoise.png"
+                    : String(location.type) === "Rabbit"
+                    ? "/rabbit.png"
+                    : String(location.type) === "Pig"
+                    ? "/pig.png"
+                    : "/other.png",
+
                 scaledSize: new window.google.maps.Size(48, 48),
               }}
 

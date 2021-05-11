@@ -16,6 +16,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import axios from "axios";
 import AppBar from "@material-ui/core/AppBar";
@@ -23,12 +24,19 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import FooterComponent from "../Footer/footer";
 import backendServer from "../../webconfig";
-
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormLabel from "@material-ui/core/FormLabel";
 import Box from "@material-ui/core/Box";
 import { Redirect } from "react-router";
 import PetLocation from "./petlocation";
 import BookmarkIcon from "@material-ui/icons/Bookmark";
-import { Row, Col } from "antd";
+import "./feed.css";
+import { PlacesAuto } from "./placesAuto";
+import Button from "@material-ui/core/Button";
+import background from "../../Icons/back.jpeg";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,7 +74,7 @@ function a11yProps(index) {
 const useTabStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    backgroundColor: "#CCD2D1", //tab content color
+    backgroundColor: "#FFFFFF", //tab content color
   },
 }));
 
@@ -74,7 +82,7 @@ const userFeedStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 745,
     marginTop: "3%",
-    backgroundColor: "#828282", //card color
+    backgroundColor: "#85a1b4", //card color
   },
   media: {
     height: 0,
@@ -96,7 +104,10 @@ export default function Feed() {
   const classes = userFeedStyles();
   const [expanded, setExpanded] = useState(false);
   const [locations, setLocations] = useState(null);
+  const [speciesValue, setSpeciesValue] = useState("All");
+  const [DateValue, setDateValue] = useState("30");
   const [value, setValue] = useState([]);
+  const [recordTypeValue, setRecordTypeValue] = useState("All");
   useEffect(() => {
     axios
       .post(backendServer + "/getLocations")
@@ -134,6 +145,19 @@ export default function Feed() {
   const onBookMarkClick = (event) => {
     window.alert(event.target);
   };
+  const handleRadioChange = (event) => {
+    setSpeciesValue(event.target.value);
+  };
+  const handleDateChange = (event) => {
+    setDateValue(event.target.value);
+  };
+  const handleRecordTypeChange = (event) => {
+    setRecordTypeValue(event.target.value);
+  };
+  const OnFindClick = (event) => {};
+
+  const GoToLost = (event) => {};
+
   const renderCard = () => {
     return (
       <>
@@ -155,7 +179,7 @@ export default function Feed() {
                         id={idx}
                         onChange={handleChange}
                         aria-label="simple tabs example"
-                        style={{ background: "darkgrey" }}
+                        style={{ background: "#8dc63f" }}
                       >
                         <Tab
                           value={idx + "-" + 0}
@@ -204,7 +228,7 @@ export default function Feed() {
                     </TabPanel>
                     <TabPanel value={value[idx]} index={2}>
                       <div style={{ height: "40%" }}>
-                        <PetLocation location={location} />
+                        <PetLocation location={location}></PetLocation>
                       </div>
                     </TabPanel>
                   </div>
@@ -249,10 +273,9 @@ export default function Feed() {
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                       <Typography paragraph>Details</Typography>
-                      <Typography paragraph>
-                        Heat 1/2 cup of the broth in a pot until simmering, add
-                        saffron and set aside for 10 minutes.
-                      </Typography>
+                      <div>
+                        {/* <PDFGenerator details={location}></PDFGenerator> */}
+                      </div>
                       <Typography paragraph>
                         Heat oil in a (14- to 16-inch) paella pan or a large,
                         deep skillet over medium-high heat. Add chicken, shrimp
@@ -290,12 +313,175 @@ export default function Feed() {
   };
 
   return (
-    <div>
-      <Grid container spacing={3}>
-        <Grid item xs={3} sm={3}>
-          test
+    <div style={{ backgroundColor: "#F5F9FC" }}>
+      <div
+        style={{
+          backgroundImage: `url(${background})`,
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            marginLeft: "43%",
+          }}
+        >
+          <h1
+            style={{
+              padding: "18px",
+              fontFamily: "Sirin Stencil",
+              fontWeight: "600",
+            }}
+          >
+            Lost or Found a pet?
+          </h1>
+          <div style={{ marginLeft: "10%" }}>
+            <Button
+              variant="contained"
+              style={{
+                width: "16%",
+                height: "55px",
+                borderRadius: "13px",
+
+                backgroundColor: "#8dc63f",
+              }}
+              onClick={GoToLost}
+            >
+              Report Pet
+            </Button>
+          </div>
+        </div>
+      </div>
+      <Grid container spacing={2}>
+        <Grid
+          item
+          xs={3}
+          sm={3}
+          style={{
+            marginLeft: "3%",
+          }}
+        >
+          <div
+            style={{
+              position: "-webkit-sticky",
+              position: "sticky",
+              top: "0",
+              padding: "5%",
+            }}
+          >
+            <Paper
+              style={{
+                height: "10%",
+                width: "65%",
+                backgroundColor: "#DCDCDC",
+                borderRadius: "15px",
+
+                marginTop: "5%",
+              }}
+            >
+              <Paper style={{ backgroundColor: "#85a1b4" }}>
+                <div style={{ padding: "18px", fontFamily: "Sirin Stencil" }}>
+                  <h5>Showing lost and found pets</h5>
+                </div>
+              </Paper>
+              <Paper>
+                <div style={{ padding: "18px" }}>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">Species</FormLabel>
+                    <RadioGroup
+                      value={speciesValue}
+                      onChange={handleRadioChange}
+                    >
+                      <FormControlLabel
+                        value="All"
+                        control={<Radio />}
+                        label="All"
+                      />
+                      <FormControlLabel
+                        value="Dog"
+                        control={<Radio />}
+                        label="Dog"
+                      />
+                      <FormControlLabel
+                        value="Cat"
+                        control={<Radio />}
+                        label="Cat"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+              </Paper>
+              <Paper>
+                <div style={{ padding: "18px" }}>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">Within Past</FormLabel>
+                    <RadioGroup value={DateValue} onChange={handleDateChange}>
+                      <FormControlLabel
+                        value="30"
+                        control={<Radio />}
+                        label="1 Month"
+                      />
+                      <FormControlLabel
+                        value="90"
+                        control={<Radio />}
+                        label="3 Months"
+                      />
+                      <FormControlLabel
+                        value="183"
+                        control={<Radio />}
+                        label="6 Months"
+                      />
+                      <FormControlLabel
+                        value="365"
+                        control={<Radio />}
+                        label="1 Year"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+              </Paper>
+              <Paper>
+                <div style={{ padding: "18px" }}>
+                  <FormControl component="fieldset">
+                    <FormLabel component="legend">State</FormLabel>
+                    <RadioGroup
+                      value={recordTypeValue}
+                      onChange={handleRecordTypeChange}
+                    >
+                      <FormControlLabel
+                        value="All"
+                        control={<Radio />}
+                        label="All"
+                      />
+                      <FormControlLabel
+                        value="Lost"
+                        control={<Radio />}
+                        label="Lost"
+                      />
+                      <FormControlLabel
+                        value="Found"
+                        control={<Radio />}
+                        label="Found"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </div>
+              </Paper>
+              <Button
+                variant="contained"
+                style={{
+                  width: "100%",
+                  height: "50px",
+                  borderRadius: "10px",
+                  backgroundColor: "#8dc63f",
+                }}
+                onClick={OnFindClick}
+              >
+                Find
+              </Button>
+            </Paper>
+          </div>
         </Grid>
-        <Grid item xs={9} sm={9}>
+        <Grid item xs={8} sm={8} style={{ marginLeft: "3%" }}>
           {renderCard()}
         </Grid>
       </Grid>

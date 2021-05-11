@@ -1,9 +1,6 @@
 import React from "react";
-import axios from "axios";
 import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { Component } from "react";
-import { Col, Row } from "react-bootstrap";
-import backendServer from "../../webconfig";
 import { Redirect } from "react-router-dom";
 
 class PetLocation extends Component {
@@ -13,7 +10,7 @@ class PetLocation extends Component {
 
   render() {
     let cards = [];
-    console.log(this.props.location);
+    //console.log(this.props.location);
     cards.push(
       <div
         style={{
@@ -23,6 +20,7 @@ class PetLocation extends Component {
         }}
       >
         <Map
+          defaultZoom={4}
           google={this.props.google}
           initialCenter={{
             lat: this.props.location.latitude,
@@ -33,6 +31,28 @@ class PetLocation extends Component {
             position={{
               lat: this.props.location.latitude,
               lng: this.props.location.longitude,
+            }}
+            icon={{
+              url:
+                String(this.props.location.type) === "Dog"
+                  ? "/dog.png"
+                  : String(this.props.location.type) === "Cat"
+                  ? "/cat.png"
+                  : String(this.props.location.type) === "Bird"
+                  ? "/bird.png"
+                  : String(this.props.location.type) === "Goat"
+                  ? "/goat.png"
+                  : String(this.props.location.type) === "Horse"
+                  ? "/horse.png"
+                  : String(this.props.location.type) === "Tortoise"
+                  ? "/tortoise.png"
+                  : String(this.props.location.type) === "Rabbit"
+                  ? "/rabbit.png"
+                  : String(this.props.location.type) === "Pig"
+                  ? "/pig.png"
+                  : "/other.png",
+
+              scaledSize: new window.google.maps.Size(48, 48),
             }}
           />
         </Map>
