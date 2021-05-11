@@ -13,9 +13,11 @@
     "antd": "^4.15.2",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.0",
+    "captcha-image": "^1.2.6",
     "firebase-admin": "^9.7.0",
     "firebase-functions": "^3.13.2",
     "google-maps-react": "^2.0.6",
+    "image-to-base64": "^2.2.0",
     "jspdf": "^2.3.1",
     "react": "^16.14.0",
     "react-bootstrap": "^1.5.2",
@@ -27,6 +29,9 @@
     "react-qr-code": "^1.1.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "react-share": "^4.4.0",
+    "react-use-xhr": "0.0.1",
+    "semantic-ui-react": "^2.0.3",
     "web-vitals": "^1.1.1"
   },
   "scripts": {

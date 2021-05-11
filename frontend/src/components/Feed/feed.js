@@ -37,6 +37,10 @@ import "./feed.css";
 // import { PlacesAuto } from "./placesAuto";
 import Button from "@material-ui/core/Button";
 import background from "../../Icons/back.jpeg";
+import Fb from "./fb";
+import PDFGenerator from "./pdfgenerator";
+
+import PlacesAuto from "./placesAuto";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -104,10 +108,12 @@ export default function Feed() {
   const classes = userFeedStyles();
   const [expanded, setExpanded] = useState(false);
   const [locations, setLocations] = useState(null);
+
   const [speciesValue, setSpeciesValue] = useState("All");
   const [DateValue, setDateValue] = useState("30");
   const [value, setValue] = useState([]);
   const [recordTypeValue, setRecordTypeValue] = useState("All");
+  const [address, SetAddress] = useState("");
   useEffect(() => {
     axios
       .post(backendServer + "/getLocations")
@@ -115,7 +121,9 @@ export default function Feed() {
         if (response.data.length > 0) {
           setLocations(response.data);
           let values = Array(response.data.length).fill(0);
+
           setValue(values);
+          // let expands=Array(response.data.length).fill({id:location.id,color:});
         }
       })
 
@@ -142,9 +150,9 @@ export default function Feed() {
     setValue([...updatedValue]);
   };
 
-  // const onBookMarkClick = (event) => {
-  //   window.alert(event.target);
-  // };
+  const onBookMarkClick = (location) => {
+    console.log(location);
+  };
   const handleRadioChange = (event) => {
     setSpeciesValue(event.target.value);
   };
@@ -169,7 +177,7 @@ export default function Feed() {
                 <Card className={classes.root} elevation={15} key={location.id}>
                   <CardHeader
                     title={location.record_type + " - " + location.type}
-                    subheader={location.missing_date}
+                    subheader={String(location.missing_date).substr(0, 10)}
                   />
                   {/* tabs starts from here */}
                   <div className={tabClasses.root}>
@@ -196,18 +204,41 @@ export default function Feed() {
                           label="Location"
                           {...a11yProps(2)}
                         />
+                        <Tab
+                          value={idx + "-" + 3}
+                          label="Sightings"
+                          {...a11yProps(3)}
+                        />
                       </Tabs>
                     </AppBar>
                     <TabPanel value={value[idx]} index={0}>
-                      <img
-                        src={
-                          "https://petgohome.s3-us-west-2.amazonaws.com/" +
-                          location.image
-                        }
-                        alt="pet"
-                        width="350"
-                        height="300"
-                      ></img>
+                      <div>
+                        <table>
+                          <tr>
+                            <td>
+                              <img
+                                src={
+                                  "https://petgohome.s3-us-west-2.amazonaws.com/" +
+                                  location.image
+                                }
+                                alt="pet image"
+                                width="350"
+                                height="300"
+                              ></img>
+                            </td>
+                            <td>
+                              <Fb location={location}></Fb>
+                            </td>
+                          </tr>
+                        </table>
+
+                        {/* <IconButton
+                          aria-label="add to favorites"
+                          onClick={() => onBookMarkClick(location)}
+                        >
+                          <BookmarkIcon />
+                        </IconButton> */}
+                      </div>
                     </TabPanel>
                     <TabPanel value={value[idx]} index={1}>
                       <div
@@ -223,12 +254,46 @@ export default function Feed() {
                         <br></br>
                         Gender : {location.gender}
                         <br></br>
-                        Date : {location.missing_date}
+                        Date : {String(location.missing_date).substr(0, 10)}
                       </div>
                     </TabPanel>
-                    <TabPanel value={value[idx]} index={2}>
-                      <div style={{ height: "40%" }}>
+                    <TabPanel
+                      value={value[idx]}
+                      index={2}
+                      style={{ position: "relative", minHeight: "350px" }}
+                    >
+                      <div
+                        style={{
+                          height: "40%",
+                          position: "absolute",
+                          bottom: "-105%",
+                          height: "200%",
+                          width: "200%",
+                        }}
+                      >
                         <PetLocation location={location}></PetLocation>
+                      </div>
+                    </TabPanel>
+                    <TabPanel
+                      value={value[idx]}
+                      index={3}
+                      style={{ position: "relative", minHeight: "350px" }}
+                    >
+                      <div>
+                        <h4 style={{ fontFamily: "Sirin Stencil" }}>
+                          Sightings of this pet
+                        </h4>
+                        <div
+                          style={{
+                            height: "40%",
+                            position: "absolute",
+                            bottom: "-105%",
+                            height: "200%",
+                            width: "200%",
+                          }}
+                        >
+                          <PetLocation location={location}></PetLocation>
+                        </div>
                       </div>
                     </TabPanel>
                   </div>
@@ -238,7 +303,7 @@ export default function Feed() {
                   <CardContent>
                     <Typography
                       variant="body2"
-                      color="textSecondary"
+                      //  color="textSecondary"
                       component="p"
                     >
                       {location.record_type + " - location"}
@@ -253,9 +318,6 @@ export default function Feed() {
                     </Typography>
                   </CardContent>
                   <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                      <BookmarkIcon />
-                    </IconButton>
                     {/* <IconButton aria-label="share">
                       <ShareIcon />
                     </IconButton> */}
@@ -271,37 +333,16 @@ export default function Feed() {
                     </IconButton>
                   </CardActions>
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent>
-                      <Typography paragraph>Details</Typography>
+                    <CardContent style={{ marginTop: "0px" }}>
+                      <Typography paragraph>Details </Typography>
+
+                      {/* <PDFGenerator details={location}></PDFGenerator> */}
+
                       <div>
-                        {/* <PDFGenerator details={location}></PDFGenerator> */}
+                        {/* -------------------------place auto complete------------------------------------- */}
+                        <PlacesAuto details={location}></PlacesAuto>
+                        {/* -------------------------place auto complete------------------------------------- */}
                       </div>
-                      <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large,
-                        deep skillet over medium-high heat. Add chicken, shrimp
-                        and chorizo, and cook, stirring occasionally until
-                        lightly browned, 6 to 8 minutes. Transfer shrimp to a
-                        large plate and set aside, leaving chicken and chorizo
-                        in the pan. Add pimentón, bay leaves, garlic, tomatoes,
-                        onion, salt and pepper, and cook, stirring often until
-                        thickened and fragrant, about 10 minutes. Add saffron
-                        broth and remaining 4 1/2 cups chicken broth; bring to a
-                        boil.
-                      </Typography>
-                      <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with
-                        artichokes and peppers, and cook without stirring, until
-                        most of the liquid is absorbed, 15 to 18 minutes. Reduce
-                        heat to medium-low, add reserved shrimp and mussels,
-                        tucking them down into the rice, and cook again without
-                        stirring, until mussels have opened and rice is just
-                        tender, 5 to 7 minutes more. (Discard any mussels that
-                        don’t open.)
-                      </Typography>
-                      <Typography>
-                        Set aside off of the heat to let rest for 10 minutes,
-                        and then serve.
-                      </Typography>
                     </CardContent>
                   </Collapse>
                 </Card>
@@ -363,7 +404,7 @@ export default function Feed() {
           <div
             style={{
               position: "-webkit-sticky",
-              // position: "sticky",
+              position: "sticky",
               top: "0",
               padding: "5%",
             }}

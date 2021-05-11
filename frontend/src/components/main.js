@@ -33,7 +33,7 @@ class Main extends Component {
           {/* <Route path="/maps" component={Maps} /> */}
           {/* <Route path="/upload" component={FileUpload} /> */}
           {/* <Route path="/pdf" component={pdfGenerator} /> */}
-          <Route path="/home" component={Home} />
+          <Route path="/home" component={feed} />
           <Route path="/whomtocontact" component={WhomToContact} />
           <Route path="/stolenpets" component={stolenpets} />
           <Route path="/mapswithicon" component={mapswithicon} />

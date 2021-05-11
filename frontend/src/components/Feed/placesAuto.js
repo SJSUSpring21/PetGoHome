@@ -1,95 +1,79 @@
-import React, { Component } from "react";
-import {
-  // Map, Marker,
-  GoogleApiWrapper,
-} from "google-maps-react";
+import React from "react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
+import Button from "@material-ui/core/Button";
+import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
-export class PlacesAuto extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      address: "",
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {},
-      mapCenter: {
-        lat: 37.3352,
-        lng: -121.8811,
-      },
-    };
-  }
+function PlacesAuto(props) {
+  const [address, setAddress] = React.useState("");
+  const [coordinates, setCoordinates] = React.useState({
+    lat: null,
+    lng: null,
+  });
 
-  handleChange = (address) => {
-    this.setState({ address });
+  const handleSelect = async (value) => {
+    const results = await geocodeByAddress(value);
+    const latLng = await getLatLng(results[0]);
+    setAddress(value);
+    setCoordinates(latLng);
   };
 
-  handleSelect = (address) => {
-    geocodeByAddress(address)
-      .then((results) => getLatLng(results[0]))
-      .then((latLng) => {
-        this.setState({ address });
-        console.log("Success", latLng);
-        this.setState({ mapCenter: latLng });
-      })
-      .catch((error) => console.error("Error", error));
+  const handleOnClick = () => {
+    window.alert(props.details.id);
   };
 
-  render() {
-    return (
-      <div id="googleMap">
-        <div style={{ marginBottom: "40px" }}>
-          <PlacesAutocomplete
-            value={this.state.address}
-            onChange={this.handleChange}
-            onSelect={this.handleSelect}
-          >
-            {({
-              getInputProps,
-              suggestions,
-              getSuggestionItemProps,
-              loading,
-            }) => (
-              <div>
-                <input
-                  style={{ width: "400px" }}
-                  {...getInputProps({
-                    placeholder: "Search Places ...",
-                    className: "location-search-input",
-                  })}
-                />
-                <div className="autocomplete-dropdown-container">
-                  {loading && <div>Loading...</div>}
-                  {suggestions.map((suggestion) => {
-                    const className = suggestion.active
-                      ? "suggestion-item--active"
-                      : "suggestion-item";
-                    // inline style for demonstration purpose
-                    const style = suggestion.active
-                      ? { backgroundColor: "#fafafa", cursor: "pointer" }
-                      : { backgroundColor: "#ffffff", cursor: "pointer" };
-                    return (
-                      <div
-                        {...getSuggestionItemProps(suggestion, {
-                          className,
-                          style,
-                        })}
-                      >
-                        <span>{suggestion.description}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </PlacesAutocomplete>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <PlacesAutocomplete
+        value={address}
+        onChange={setAddress}
+        onSelect={handleSelect}
+      >
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+          <div>
+            <p>Latitude: {coordinates.lat}</p>
+            <p>Longitude: {coordinates.lng}</p>
+
+            <input
+              {...getInputProps({ placeholder: "Type address" })}
+              style={{ width: "400px" }}
+            />
+
+            <div>
+              {loading ? <div>...loading</div> : null}
+
+              {suggestions.map((suggestion) => {
+                const style = {
+                  backgroundColor: suggestion.active ? "#8dc63f" : "#85a1b4",
+                };
+
+                return (
+                  <div {...getSuggestionItemProps(suggestion, { style })}>
+                    {suggestion.description}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </PlacesAutocomplete>
+      <Button
+        variant="contained"
+        onClick={handleOnClick}
+        style={{
+          width: "22%",
+          height: "55px",
+          borderRadius: "13px",
+
+          backgroundColor: "#8dc63f",
+        }}
+      >
+        Post Sighting
+      </Button>
+    </div>
+  );
 }
 
 export default GoogleApiWrapper({

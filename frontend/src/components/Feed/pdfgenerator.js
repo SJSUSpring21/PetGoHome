@@ -1,16 +1,21 @@
 import React, { PureComponent } from "react";
+import imageToBase64 from "image-to-base64";
 
 import jsPDF from "jspdf";
 
-export default class PDFGenerator extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  jsPdfGenerator = () => {
+// export default class PDFGenerator extends PureComponent {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       imgData: "",
+//     };
+//   }
+
+export default function PDFGenerator(props) {
+  const jsPdfGenerator = () => {
     var doc = new jsPDF("p", "pt");
 
-    // var imgData = "data:image/this.jsPdfGenerator;base64," + Base64.encode();
+    var url = "https://petgohome.s3-us-west-2.amazonaws.com/" + "dog.1.png";
 
     doc.text(
       50,
@@ -38,16 +43,17 @@ export default class PDFGenerator extends PureComponent {
       )
     );
 
+    doc.addImage(this.state.imgData, "png", 0, 0, 232, 287);
+
     doc.setFont("courier");
 
     //save the doc
     doc.save("generated.pdf");
   };
-  render() {
-    return (
-      <div>
-        <button onClick={this.jsPdfGenerator}>Generate PDF</button>
-      </div>
-    );
-  }
+
+  return (
+    <div>
+      <button onClick={jsPdfGenerator}>Generate PDF</button>
+    </div>
+  );
 }
