@@ -20,7 +20,19 @@ app.post("/getLocations", async (req, res) => {
           ],
         },
       },
-      attributes: ["id", "latitude", "longitude", "location", "image"],
+      attributes: [
+        "id",
+        "record_type",
+        "type",
+        "gender",
+        "color",
+        "breed",
+        "missing_date",
+        "latitude",
+        "longitude",
+        "location",
+        "image",
+      ],
     });
     res.status(200).send(loc);
   } catch (error) {

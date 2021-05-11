@@ -13,6 +13,8 @@ import stolenpets from "./Info/stolenpets";
 import mapswithicon from "./mapswithicon/mapswithicon";
 
 import Convert from "./convert/convertolatlng";
+import feed from "./Feed/feed";
+import PetLocation from "./Feed/petlocation";
 
 class Main extends Component {
   constructor(props) {
@@ -36,6 +38,8 @@ class Main extends Component {
           <Route path="/stolenpets" component={stolenpets} />
           <Route path="/mapswithicon" component={mapswithicon} />
           <Route path="/convert" component={Convert} />
+          <Route path="/feed" component={feed} />
+          <Route path="/petlocation" component={PetLocation} />
         </div>
       </div>
     );
