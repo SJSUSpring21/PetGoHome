@@ -269,6 +269,7 @@ function PlacesAuto(props) {
           Search
         </Button>
       </Paper>
+
       <Paper
         elevation={15}
         style={{

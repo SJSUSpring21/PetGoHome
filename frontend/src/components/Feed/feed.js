@@ -113,6 +113,12 @@ export default function Feed() {
   const [value, setValue] = useState([]);
   const [recordTypeValue, setRecordTypeValue] = useState("All");
   const [address, SetAddress] = useState("");
+
+  navigator.geolocation.getCurrentPosition(function (position) {
+    window.alert("Latitude is :" + String(position.coords.latitude));
+    console.log("Longitude is :", position.coords.longitude);
+  });
+
   useEffect(() => {
     axios
       .post(backendServer + "/getLocations")
