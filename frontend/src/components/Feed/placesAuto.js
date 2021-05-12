@@ -8,7 +8,7 @@ import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import { GoogleURL } from "../../config";
 function PlacesAuto(props) {
   const [address, setAddress] = React.useState("");
-  const [locations, setLocations] = React.useState([{}]);
+  const [locations, setLocations] = React.useState();
   const [coordinates, setCoordinates] = React.useState({
     lat: null,
     lng: null,
@@ -52,7 +52,7 @@ function PlacesAuto(props) {
       ) : (
         <div>No recent sightings of the pet..!</div>
       )}
-      <table>
+      <table style={{ marginTop: "10px" }}>
         <tr>
           <td>
             <PlacesAutocomplete

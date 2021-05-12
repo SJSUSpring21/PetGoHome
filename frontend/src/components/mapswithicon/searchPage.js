@@ -223,7 +223,7 @@ function PlacesAuto(props) {
               <option>Other</option>
             </Form.Control>
           </Col>
-          <Col rowSpan={2}>
+          <Col style={{ rowSpan: "2" }}>
             <div>
               <FormControl component="fieldset">
                 <FormLabel component="legend">Within Past</FormLabel>

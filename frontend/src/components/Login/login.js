@@ -163,7 +163,7 @@ class Login extends Component {
                 style={{ textAlign: "center", marginTop: "30px" }}
               >
                 <button className="btn btn-primary" type="submit">
-                  Submit form
+                  Login
                 </button>
               </div>
             </form>
@@ -217,7 +217,7 @@ class Login extends Component {
                 style={{ textAlign: "center", marginTop: "30px" }}
               >
                 <button className="btn btn-primary" type="submit">
-                  Submit form
+                  Sign Up
                 </button>
               </div>
             </form>
