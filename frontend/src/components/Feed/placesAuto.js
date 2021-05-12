@@ -8,10 +8,26 @@ import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
 function PlacesAuto(props) {
   const [address, setAddress] = React.useState("");
+  const [locations, setLocations] = React.useState([{}]);
   const [coordinates, setCoordinates] = React.useState({
     lat: null,
     lng: null,
   });
+
+  // useEffect(() => {
+  //   axios
+  //     .post(backendServer + "/getLocations")
+  //     .then((response) => {
+  //       if (response.data.length > 0) {
+  //         setLocations(response.data);
+
+  //       }
+  //     })
+
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
@@ -26,52 +42,82 @@ function PlacesAuto(props) {
 
   return (
     <div>
-      <PlacesAutocomplete
-        value={address}
-        onChange={setAddress}
-        onSelect={handleSelect}
-      >
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+      {locations ? (
+        (locations.map = (location) => {
           <div>
-            <p>Latitude: {coordinates.lat}</p>
-            <p>Longitude: {coordinates.lng}</p>
+            {location.name} saw the pet in {location.location} on{" "}
+            {location.Date}.
+          </div>;
+        })
+      ) : (
+        <div>No recent sightings of the pet..!</div>
+      )}
+      <table>
+        <tr>
+          <td>
+            <PlacesAutocomplete
+              value={address}
+              onChange={setAddress}
+              onSelect={handleSelect}
+            >
+              {({
+                getInputProps,
+                suggestions,
+                getSuggestionItemProps,
+                loading,
+              }) => (
+                <div>
+                  {/* <p>Latitude: {coordinates.lat}</p>
+            <p>Longitude: {coordinates.lng}</p> */}
 
-            <input
-              {...getInputProps({ placeholder: "Type address" })}
-              style={{ width: "400px" }}
-            />
+                  <input
+                    {...getInputProps({ placeholder: "Type address" })}
+                    style={{
+                      width: "400px",
+                      height: "35px",
+                      borderRadius: "12px",
+                    }}
+                  />
 
-            <div>
-              {loading ? <div>...loading</div> : null}
+                  <div>
+                    {loading ? <div>...loading</div> : null}
 
-              {suggestions.map((suggestion) => {
-                const style = {
-                  backgroundColor: suggestion.active ? "#8dc63f" : "#85a1b4",
-                };
+                    {suggestions.map((suggestion) => {
+                      const style = {
+                        backgroundColor: suggestion.active
+                          ? "#8dc63f"
+                          : "#85a1b4",
+                      };
 
-                return (
-                  <div {...getSuggestionItemProps(suggestion, { style })}>
-                    {suggestion.description}
+                      return (
+                        <div {...getSuggestionItemProps(suggestion, { style })}>
+                          {suggestion.description}
+                        </div>
+                      );
+                    })}
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </PlacesAutocomplete>
-      <Button
-        variant="contained"
-        onClick={handleOnClick}
-        style={{
-          width: "22%",
-          height: "55px",
-          borderRadius: "13px",
+                </div>
+              )}
+            </PlacesAutocomplete>
+          </td>
+          <td>
+            <Button
+              variant="contained"
+              onClick={handleOnClick}
+              style={{
+                width: "150%",
+                height: "55px",
+                marginLeft: "10px",
+                borderRadius: "13px",
 
-          backgroundColor: "#8dc63f",
-        }}
-      >
-        Post Sighting
-      </Button>
+                backgroundColor: "#8dc63f",
+              }}
+            >
+              Post Sighting
+            </Button>
+          </td>
+        </tr>
+      </table>
     </div>
   );
 }

@@ -71,20 +71,20 @@ class PetLocation extends Component {
               scaledSize: new window.google.maps.Size(48, 48),
             }}
           />
-        </Map>
-        {/* {this.props.shelters.forEach((item) => (
-          <Marker
-            position={{
-              lat: item.latitude,
-              lng: item.longitude,
-            }}
-            icon={{
-              url: "/other.png",
+          {/* {this.state.locations.forEach((item) => (
+            <Marker
+              position={{
+                lat: item.latitude,
+                lng: item.longitude,
+              }}
+              icon={{
+                url: "/other.png",
 
-              scaledSize: new window.google.maps.Size(48, 48),
-            }}
-          />
-        ))} */}
+                scaledSize: new window.google.maps.Size(48, 48),
+              }}
+            />
+          ))} */}
+        </Map>
       </div>
     );
 

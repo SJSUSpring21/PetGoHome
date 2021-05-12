@@ -382,7 +382,7 @@ export default function Feed() {
                 width: "16%",
                 height: "55px",
                 borderRadius: "13px",
-
+                marginBottom: "2%",
                 backgroundColor: "#8dc63f",
               }}
               onClick={GoToLost}
@@ -412,7 +412,7 @@ export default function Feed() {
             <Paper
               style={{
                 height: "10%",
-                width: "65%",
+                width: "80%%",
                 backgroundColor: "#DCDCDC",
                 borderRadius: "15px",
 

@@ -44,8 +44,9 @@ class Navbar extends Component {
         <div
           style={{
             display: "block",
-            height: "100px",
+            height: "58px",
             width: "100%",
+            backgroundColor: "#1892e6",
           }}
         >
           <div
@@ -55,11 +56,12 @@ class Navbar extends Component {
               width: "100%",
               backgroundColor: "#fff",
               padding: "5px 5%",
-              zIndex: "5",
+              zIndex: "3",
               transition: "0.3s all ease",
               boxShadow: localStorage.getItem("userProfile")
                 ? "0px 1px 10px -5px #777"
                 : "",
+              backgroundColor: "#8dc63f",
             }}
           >
             <div className="row">

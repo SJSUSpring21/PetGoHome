@@ -314,26 +314,39 @@ class LostOrFound extends Component {
         <div
           className="lostFound"
           style={{
-            padding: "50px 100px",
+            // padding: "15px 100px",
             width: "80%",
             margin: " 20px auto",
             boxShadow: "20px 20px 60px #bebebe, -20px -20px 60px #ffffff",
+            borderRadius: "25px",
+            backgroungColor: "#f5f9fc",
           }}
         >
           <div
             style={{
               textAlign: "center",
-              fontSize: "32px",
+              fontSize: "38px",
               fontWeight: "700",
               marginBottom: "30px",
+              fontFamily: "Sirin Stencil",
+              height: "80px",
+              backgroundColor: "#85a1b4",
             }}
           >
             Enter the details of your pet
           </div>
-          <Form>
+          <Form
+            style={{
+              padding: "2%",
+              fontFamily: "Sirin Stencil",
+              fontSize: "20px",
+            }}
+          >
             <Row style={{ margin: "0" }}>
               <Col>
-                <label>Enter your petname</label>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Enter your petname
+                </label>
                 <Form.Control
                   type="text"
                   placeholder="pet name"
@@ -343,7 +356,9 @@ class LostOrFound extends Component {
                 />
               </Col>
               <Col>
-                <label>Enter your Name</label>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Enter your Name
+                </label>
                 <Form.Control
                   type="text"
                   placeholder="name"
@@ -355,7 +370,9 @@ class LostOrFound extends Component {
             </Row>
             <Row style={{ margin: "0" }}>
               <Col>
-                <label>Enter your Email address</label>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Enter your Email address
+                </label>
                 <Form.Control
                   type="text"
                   placeholder="email"
@@ -365,7 +382,9 @@ class LostOrFound extends Component {
                 />
               </Col>
               <Col>
-                <label>Enter your Mobile Number</label>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Enter your Mobile Number
+                </label>
                 <Form.Control
                   type="number"
                   placeholder="Mobile"
@@ -377,7 +396,9 @@ class LostOrFound extends Component {
             </Row>
             <Row style={{ margin: "0" }}>
               <Col>
-                <label>Report Type</label>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Report Type
+                </label>
                 <Form.Control
                   as="select"
                   defaultValue="Choose..."
@@ -393,7 +414,9 @@ class LostOrFound extends Component {
                 </Form.Control>
               </Col>
               <Col>
-                <label>Date</label>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Date
+                </label>
                 <Form.Control
                   type="date"
                   placeholder="Lost Date"
@@ -417,6 +440,8 @@ class LostOrFound extends Component {
                     textAlign: "center",
                     color: "#555",
                     marginBottom: "10px",
+                    color: "#000000",
+                    paddingBottom: "5px",
                   }}
                 >
                   Select the type of you pet
@@ -427,6 +452,11 @@ class LostOrFound extends Component {
                       key={idx}
                       type="radio"
                       variant="secondary"
+                      style={{
+                        backgroundColor: "#8dc640",
+                        borderRadius: "15px",
+                        borderColor: "#8dc640",
+                      }}
                       name="radio"
                       value={radio.value}
                       checked={this.state.pettype === radio.value}
@@ -435,7 +465,10 @@ class LostOrFound extends Component {
                       }
                     >
                       <div
-                        style={{ display: "inline-block", marginLeft: "10px" }}
+                        style={{
+                          display: "inline-block",
+                          marginLeft: "10px",
+                        }}
                       >
                         {radio.name}
                       </div>
@@ -451,6 +484,8 @@ class LostOrFound extends Component {
                     textAlign: "center",
                     color: "#555",
                     marginBottom: "10px",
+                    color: "#000000",
+                    paddingBottom: "5px",
                   }}
                 >
                   Description about your pet
@@ -472,7 +507,9 @@ class LostOrFound extends Component {
             </Row>
             <Row style={{ justifyContent: "center", textAlign: "center" }}>
               <Col xs={6}>
-                <div>Upload a picture</div>
+                <div style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Upload a picture
+                </div>
                 <div
                   style={{
                     width: "300px",
@@ -515,7 +552,9 @@ class LostOrFound extends Component {
                   display: "flex",
                 }}
               >
-                <div>Location where you have lost or found a pet.</div>
+                <div style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Location where you have lost or found a pet.
+                </div>
                 <div
                   style={{
                     width: "300px",
@@ -538,6 +577,14 @@ class LostOrFound extends Component {
                   variant="secondary"
                   onClick={() => {
                     this.submitDetails();
+                  }}
+                  style={{
+                    borderRadius: "13px",
+                    borderColor: "#8dc63f",
+                    backgroundColor: "#8dc63f",
+                    width: "100%",
+                    height: "50px",
+                    fontSize: "20px",
                   }}
                 >
                   Submit Details

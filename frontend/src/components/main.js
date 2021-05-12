@@ -15,6 +15,8 @@ import mapswithicon from "./mapswithicon/mapswithicon";
 import Convert from "./convert/convertolatlng";
 import feed from "./Feed/feed";
 import PetLocation from "./Feed/petlocation";
+import HowItWorks from "./Info/HowitWorks";
+import PdfGenerator from "./Feed/pdfgenerator";
 
 class Main extends Component {
   constructor(props) {
@@ -40,6 +42,8 @@ class Main extends Component {
           <Route path="/convert" component={Convert} />
           <Route path="/feed" component={feed} />
           <Route path="/petlocation" component={PetLocation} />
+          <Route path="/howitworks" component={HowItWorks} />
+          <Route path="/pdfgenerator" component={PdfGenerator} />
         </div>
       </div>
     );
