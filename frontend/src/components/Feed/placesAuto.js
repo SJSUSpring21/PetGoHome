@@ -5,7 +5,7 @@ import PlacesAutocomplete, {
 } from "react-places-autocomplete";
 import Button from "@material-ui/core/Button";
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
-
+import { GoogleURL } from "../../config";
 function PlacesAuto(props) {
   const [address, setAddress] = React.useState("");
   const [locations, setLocations] = React.useState([{}]);

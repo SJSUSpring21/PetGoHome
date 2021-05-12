@@ -1,6 +1,6 @@
 let States = [
   {
-    State: "All",
+    state: "All",
     value: "All",
   },
   {

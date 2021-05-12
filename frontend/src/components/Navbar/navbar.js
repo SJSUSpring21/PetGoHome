@@ -46,7 +46,7 @@ class Navbar extends Component {
             display: "block",
             height: "58px",
             width: "100%",
-            backgroundColor: "#1892e6",
+            // backgroundColor: "#1892e6",
           }}
         >
           <div
@@ -61,7 +61,7 @@ class Navbar extends Component {
               boxShadow: localStorage.getItem("userProfile")
                 ? "0px 1px 10px -5px #777"
                 : "",
-              backgroundColor: "#8dc63f",
+              // backgroundColor: "#8dc63f",
             }}
           >
             <div className="row">

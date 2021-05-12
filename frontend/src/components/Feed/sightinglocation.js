@@ -7,7 +7,7 @@ import axios from "axios";
 class PetLocation extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { selectedLocation: null };
   }
 
   componentDidMount = async () => {
@@ -23,6 +23,10 @@ class PetLocation extends Component {
         console.log(err);
       });
   };
+
+  onMarkerClick(location) {
+    this.setState({ selectedLocation: location });
+  }
 
   render() {
     let cards = [];
@@ -79,11 +83,28 @@ class PetLocation extends Component {
               }}
               icon={{
                 url: "/other.png",
+                onClick={() => {
+                this.onMarkerClick(location);
+              }}
 
                 scaledSize: new window.google.maps.Size(48, 48),
               }}
             />
           ))} */}
+
+          {this.selectedLocation && (
+            <InfoWindow
+              onCloseClick={() => {
+                this.setState({ selectedLocation: null });
+              }}
+              position={{
+                lat: Number(this.state.selectedlocation.latitude),
+                lng: Number(this.state.selectedlocation.longitude),
+              }}
+            >
+              <div>This is a test</div>
+            </InfoWindow>
+          )}
         </Map>
       </div>
     );

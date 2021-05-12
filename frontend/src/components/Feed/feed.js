@@ -32,13 +32,12 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Box from "@material-ui/core/Box";
 import { Redirect } from "react-router";
 import PetLocation from "./petlocation";
-import BookmarkIcon from "@material-ui/icons/Bookmark";
+
 import "./feed.css";
 // import { PlacesAuto } from "./placesAuto";
 import Button from "@material-ui/core/Button";
 import background from "../../Icons/back.jpeg";
 import Fb from "./fb";
-import PDFGenerator from "./pdfgenerator";
 
 import PlacesAuto from "./placesAuto";
 

@@ -9,12 +9,6 @@ import {
 import { GoogleURL } from "../../config";
 import backendServer from "../../webconfig";
 import axios from "axios";
-// import ico from "../../Icons/mapdog.png";
-import TextField from "@material-ui/core/TextField";
-// import { makeStyles } from "@material-ui/core/styles";
-import States from "../data/states";
-import Cities from "../data/cities";
-import MenuItem from "@material-ui/core/MenuItem";
 import { Card } from "antd";
 
 // const useStyles = makeStyles((theme) => ({
@@ -29,6 +23,8 @@ import { Card } from "antd";
 function Map() {
   const [locations, setLocations] = useState(null);
   const [selectedlocation, setSelectedLocation] = useState(null);
+  const [state, setState] = useState("All");
+  const [city, setCity] = useState("All");
 
   useEffect(() => {
     axios
@@ -36,7 +32,6 @@ function Map() {
       .then((response) => {
         if (response.data.length > 0) {
           setLocations(response.data);
-          // console.log(response.data);
         }
       })
 
@@ -58,7 +53,10 @@ function Map() {
 
   return (
     <>
-      {/* {console.log(selectedlocation)} */}
+      {/* ------------------------------------------Search Fields------------------------- */}
+
+      {/* --------------------------------------------------------------------------------------- */}
+
       {locations ? (
         <GoogleMap
           defaultZoom={4}
@@ -123,7 +121,7 @@ function Map() {
                       "https://petgohome.s3-us-west-2.amazonaws.com/" +
                       selectedlocation.image
                     }
-                    alt="pet image"
+                    alt="petimage"
                     width="350"
                     height="300"
                   ></img>
@@ -165,59 +163,15 @@ function Map() {
 
 const MapWrapped = withScriptjs(withGoogleMap(Map));
 
-export default function App() {
+export default function MapsWithIcon() {
   // const classes = useStyles();
-  const [State, setState] = useState("All");
-  const [
-    City,
-    //  setCity
-  ] = useState("All");
-
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-  };
-
-  const handleCityChange = (event) => {
-    setState(event.target.value);
-  };
 
   return (
     <div>
-      <div style={{ marginBottom: "2%" }}>
-        {/* <TextField
-          id="standard-select-State"
-          select
-          label="States"
-          value={State}
-          onChange={handleStateChange}
-          // helperText="Please select State"
-          style={{ width: "200px", height: "30px" }}
-        >
-          {States.map((option) => (
-            <MenuItem key={option.state} value={option.state}>
-              {option.state}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          id="standard-select-State"
-          select
-          label="Cities"
-          value={City}
-          onChange={handleCityChange}
-          // helperText="Please select a City"
-          style={{ width: "200px", height: "30px" }}
-        >
-          {Cities.map((option) => (
-            <MenuItem key={option.City} value={option.City}>
-              {option.City}
-            </MenuItem>
-          ))}
-        </TextField> */}
-      </div>
+      <div style={{ marginBottom: "2%" }}></div>
       {/* --------------------------------------------------------------------------------
       -----------------------------END OF FORM---------------------------------------- */}
-      <div style={{ width: "100vh", height: "100vh" }}>
+      <div style={{ width: "138vh", height: "80vh" }}>
         <MapWrapped
           googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${GoogleURL}`}
           loadingElement={<div style={{ height: `100%` }} />}
