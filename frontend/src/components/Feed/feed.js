@@ -18,12 +18,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
-
+import axios from "axios";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // import FooterComponent from "../Footer/footer";
-import axios from "axios";
 import backendServer from "../../webconfig";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -33,6 +32,7 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Box from "@material-ui/core/Box";
 import { Redirect } from "react-router";
 import PetLocation from "./petlocation";
+
 import "./feed.css";
 // import { PlacesAuto } from "./placesAuto";
 import Button from "@material-ui/core/Button";
@@ -112,32 +112,32 @@ export default function Feed() {
   const [DateValue, setDateValue] = useState("30");
   const [value, setValue] = useState([]);
   const [recordTypeValue, setRecordTypeValue] = useState("All");
-  // const [address, SetAddress] = useState("");
+  const [address, SetAddress] = useState("");
 
-  const fetch = () => {
-    let data = {
-      pet_type: speciesValue,
-      record_type: recordTypeValue,
-      missing_date: DateValue,
-    };
+  navigator.geolocation.getCurrentPosition(function (position) {
+    window.alert("Latitude is :" + String(position.coords.latitude));
+    console.log("Longitude is :", position.coords.longitude);
+  });
+
+  useEffect(() => {
     axios
-      .post(backendServer + "/getLocationsForFeed", data)
+      .post(backendServer + "/getLocationsForFeed", {
+        pet_type: speciesValue,
+        record_type: recordTypeValue,
+        missing_date: DateValue,
+      })
       .then((response) => {
+        console.log(response.data);
         if (response.data.length > 0) {
           setLocations(response.data);
           let values = Array(response.data.length).fill(0);
-
           setValue(values);
-          // let expands=Array(response.data.length).fill({id:location.id,color:});
         }
       })
 
       .catch((err) => {
         console.log(err);
       });
-  };
-  useEffect(() => {
-    fetch();
   }, []);
 
   const handleExpandClick = () => {
@@ -147,14 +147,14 @@ export default function Feed() {
   const tabClasses = useTabStyles();
 
   const handleChange = (event, newValue) => {
-    console.log(event.target.name);
+    // console.log(event.target.name);
     // console.log(val);
     console.log(newValue);
     let updatedValue = Object.assign(value);
     updatedValue[Number(newValue.split("-")[0])] = Number(
       newValue.split("-")[1]
     );
-    console.log(updatedValue);
+    // console.log(updatedValue);
     setValue([...updatedValue]);
   };
 
@@ -170,9 +170,7 @@ export default function Feed() {
   const handleRecordTypeChange = (event) => {
     setRecordTypeValue(event.target.value);
   };
-  const OnFindClick = (event) => {
-    fetch();
-  };
+  const OnFindClick = (event) => {};
 
   const GoToLost = (event) => {};
 
@@ -186,7 +184,14 @@ export default function Feed() {
               <div style={{ marginLeft: "5%", marginRight: "5%" }}>
                 <Card className={classes.root} elevation={15} key={location.id}>
                   <CardHeader
-                    title={location.record_type + " - " + location.type}
+                    title={
+                      location.record_type +
+                      " - " +
+                      location.pet_type +
+                      " (" +
+                      location.breed +
+                      ")"
+                    }
                     subheader={String(location.missing_date).substr(0, 10)}
                   />
                   {/* tabs starts from here */}
@@ -229,9 +234,9 @@ export default function Feed() {
                               <img
                                 src={
                                   "https://petgohome.s3-us-west-2.amazonaws.com/" +
-                                  location.image
+                                  location.picture
                                 }
-                                alt="pet_image"
+                                alt="petimage"
                                 width="350"
                                 height="300"
                               ></img>
@@ -260,11 +265,20 @@ export default function Feed() {
                         <row style={{ width: "50px" }}>Record Type : </row>{" "}
                         {location.record_type}
                         <br></br>
-                        Animal : {location.type}
+                        Pet Name: {location.pet_name}
+                        <br></br>
+                        Owner Name: {location.User.username}
+                        <br></br>
+                        Email : {location.email}
+                        <br></br>
+                        Contact : {"+1 " + String(location.phone)}
+                        <br></br>
+                        Animal : {location.pet_type}
                         <br></br>
                         Gender : {location.gender}
                         <br></br>
                         Date : {String(location.missing_date).substr(0, 10)}
+                        <br></br>Description : {location.description}
                       </div>
                     </TabPanel>
                     <TabPanel

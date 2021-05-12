@@ -7,7 +7,7 @@ import { FacebookIcon, WhatsappIcon } from "react-share";
 function Fb(props) {
   var str =
     "https://petgohome.s3-us-west-2.amazonaws.com/" +
-    String(props.location.image);
+    String(props.location.picture);
   return (
     <div>
       <Container>
@@ -26,7 +26,7 @@ function Fb(props) {
                     url={str}
                     quote={`Hello Everyone,
                               I have ${props.location.record_type} a pet ${
-                      props.location.type
+                      props.location.pet_type
                     }.
                               Below are the details 
                               Location : ${props.location.location}
@@ -34,9 +34,9 @@ function Fb(props) {
                                 props.location.missing_date
                               ).substr(0, 10)}
                               If anyone ${
-                                String(props.location.record_type) === "LOST"
-                                  ? "FOUND"
-                                  : "LOST"
+                                String(props.location.record_type) === "Lost"
+                                  ? "Found"
+                                  : "Lost"
                               } this pet, please contact me.`}
                     hashtag={
                       "#" +
@@ -52,7 +52,7 @@ function Fb(props) {
                   <WhatsappShareButton
                     title={`Hello Everyone,
                       I have ${props.location.record_type} a pet ${
-                      props.location.type
+                      props.location.pet_type
                     }.
                       Below are the details 
                       Location : ${props.location.location}
@@ -61,9 +61,9 @@ function Fb(props) {
                         10
                       )}
                       If anyone ${
-                        String(props.location.record_type) === "LOST"
-                          ? "FOUND"
-                          : "LOST"
+                        String(props.location.record_type) === "Lost"
+                          ? "Found"
+                          : "Lost"
                       } this pet, please contact me.`}
                     url={str}
                   >

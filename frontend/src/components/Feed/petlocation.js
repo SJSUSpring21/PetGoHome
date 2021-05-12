@@ -50,21 +50,21 @@ class PetLocation extends Component {
             }}
             icon={{
               url:
-                String(this.props.location.type) === "Dog"
+                String(this.props.location.pet_type) === "Dog"
                   ? "/dog.png"
-                  : String(this.props.location.type) === "Cat"
+                  : String(this.props.location.pet_type) === "Cat"
                   ? "/cat.png"
-                  : String(this.props.location.type) === "Bird"
+                  : String(this.props.location.pet_type) === "Bird"
                   ? "/bird.png"
-                  : String(this.props.location.type) === "Goat"
+                  : String(this.props.location.pet_type) === "Goat"
                   ? "/goat.png"
-                  : String(this.props.location.type) === "Horse"
+                  : String(this.props.location.pet_type) === "Horse"
                   ? "/horse.png"
-                  : String(this.props.location.type) === "Tortoise"
+                  : String(this.props.location.pet_type) === "Tortoise"
                   ? "/tortoise.png"
-                  : String(this.props.location.type) === "Rabbit"
+                  : String(this.props.location.pet_type) === "Rabbit"
                   ? "/rabbit.png"
-                  : String(this.props.location.type) === "Pig"
+                  : String(this.props.location.pet_type) === "Pig"
                   ? "/pig.png"
                   : "/other.png",
 

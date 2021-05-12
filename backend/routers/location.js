@@ -69,6 +69,7 @@ app.post("/getLocationsForFeed", async (req, res) => {
           [Op.gte]: moment().subtract(req.body.missing_date, "days").toDate(),
         },
       },
+      include: [db.User],
     });
     console.log(loc);
     res.status(200).send(loc);
