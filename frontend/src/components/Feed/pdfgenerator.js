@@ -1,5 +1,7 @@
-import React, { PureComponent } from "react";
-import imageToBase64 from "image-to-base64";
+import React from "react";
+//  { PureComponent }
+
+// import imageToBase64 from "image-to-base64";
 
 import jsPDF from "jspdf";
 

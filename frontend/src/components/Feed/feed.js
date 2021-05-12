@@ -18,11 +18,12 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
-import axios from "axios";
+
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // import FooterComponent from "../Footer/footer";
+import axios from "axios";
 import backendServer from "../../webconfig";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
@@ -32,7 +33,6 @@ import FormLabel from "@material-ui/core/FormLabel";
 import Box from "@material-ui/core/Box";
 import { Redirect } from "react-router";
 import PetLocation from "./petlocation";
-
 import "./feed.css";
 // import { PlacesAuto } from "./placesAuto";
 import Button from "@material-ui/core/Button";
@@ -112,16 +112,16 @@ export default function Feed() {
   const [DateValue, setDateValue] = useState("30");
   const [value, setValue] = useState([]);
   const [recordTypeValue, setRecordTypeValue] = useState("All");
-  const [address, SetAddress] = useState("");
+  // const [address, SetAddress] = useState("");
 
-  navigator.geolocation.getCurrentPosition(function (position) {
-    window.alert("Latitude is :" + String(position.coords.latitude));
-    console.log("Longitude is :", position.coords.longitude);
-  });
-
-  useEffect(() => {
+  const fetch = () => {
+    let data = {
+      pet_type: speciesValue,
+      record_type: recordTypeValue,
+      missing_date: DateValue,
+    };
     axios
-      .post(backendServer + "/getLocations")
+      .post(backendServer + "/getLocationsForFeed", data)
       .then((response) => {
         if (response.data.length > 0) {
           setLocations(response.data);
@@ -135,6 +135,9 @@ export default function Feed() {
       .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    fetch();
   }, []);
 
   const handleExpandClick = () => {
@@ -155,9 +158,9 @@ export default function Feed() {
     setValue([...updatedValue]);
   };
 
-  const onBookMarkClick = (location) => {
-    console.log(location);
-  };
+  // const onBookMarkClick = (location) => {
+  //   console.log(location);
+  // };
   const handleRadioChange = (event) => {
     setSpeciesValue(event.target.value);
   };
@@ -167,7 +170,9 @@ export default function Feed() {
   const handleRecordTypeChange = (event) => {
     setRecordTypeValue(event.target.value);
   };
-  const OnFindClick = (event) => {};
+  const OnFindClick = (event) => {
+    fetch();
+  };
 
   const GoToLost = (event) => {};
 
@@ -226,7 +231,7 @@ export default function Feed() {
                                   "https://petgohome.s3-us-west-2.amazonaws.com/" +
                                   location.image
                                 }
-                                alt="pet image"
+                                alt="pet_image"
                                 width="350"
                                 height="300"
                               ></img>
