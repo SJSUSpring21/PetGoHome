@@ -77,7 +77,7 @@ app.post("/getAllLocations", async (req, res) => {
 });
 
 app.post("/getLocationsForFeed", async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     // let qry = {};
     // if (req.body.pet_type !== "All") {
@@ -109,7 +109,7 @@ app.post("/getLocationsForFeed", async (req, res) => {
       },
       include: [db.User],
     });
-    console.log(loc);
+    // console.log(loc);
     res.status(200).send(loc);
   } catch (error) {
     console.log(error);
@@ -187,7 +187,7 @@ app.post("/postSighting", async (req, res) => {
       longitude: req.body.longitude,
       location: req.body.location,
     });
-    console.log(sight);
+    // console.log(sight);
     res.status(200).send(sight);
   } catch (error) {
     console.log(error);
@@ -201,10 +201,118 @@ app.post("/getSightings", async (req, res) => {
       where: { petid: req.body.petid },
       order: [["time_stamp", "ASC"]],
     });
-    console.log(sight);
+    // console.log(sight);
     res.status(200).send(sight);
   } catch (error) {
     console.log(error);
+    res.status(400).send({});
+  }
+});
+
+app.post("/postSighting", async (req, res) => {
+  // console.log(req.body);
+  try {
+    const sight = await db.Sightings.create({
+      name: req.body.name,
+      userid: req.body.userid,
+      petid: req.body.petid,
+      time_stamp: sequelize.fn("NOW"),
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+      location: req.body.location,
+    });
+    // console.log(sight);
+    res.status(200).send(sight);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({});
+  }
+});
+
+app.post("/getSightings", async (req, res) => {
+  try {
+    const sight = await db.Sightings.findAll({
+      where: { petid: req.body.petid },
+      order: [["time_stamp", "ASC"]],
+    });
+    // console.log(sight);
+    res.status(200).send(sight);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({});
+  }
+});
+
+app.post("/petFound", async (req, res) => {
+  try {
+    await db.LostPet.update(
+      { record_type: "Found" },
+      { where: { petid: req.body.petid } }
+    );
+  } catch (error) {
+    res.status(200).send({});
+  }
+});
+
+app.post("/getShelters", async (req, res) => {
+  try {
+    let sheltrs = await db.Shelters.findAll({});
+    let output = [];
+    sheltrs.forEach((item) => {
+      let distance =
+        ((Math.acos(
+          Math.sin((req.body.latitude * Math.PI) / 180) *
+            Math.sin((item.latitude * Math.PI) / 180) +
+            Math.cos((req.body.latitude * Math.PI) / 180) *
+              Math.cos((item.latitude * Math.PI) / 180) *
+              Math.cos(((req.body.longitude - item.longitude) * Math.PI) / 180)
+        ) *
+          180) /
+          Math.PI) *
+        60 *
+        1.1515;
+      if (distance < 5) {
+        output.push(item);
+      }
+    });
+    res.status(200).send(output);
+  } catch (error) {
+    res.status(400).send({});
+  }
+});
+
+app.post("/searchPets", async (req, res) => {
+  try {
+    let pets = await db.LostPet.findAll({
+      where: {
+        location: { [Op.substring]: req.body.location },
+        report_type: req.body.report_type,
+        pet_type: req.body.pet_type,
+        missing_date: {
+          [Op.gte]: moment().subtract(req.body.missing_date, "days").toDate(),
+        },
+      },
+    });
+    let output = [];
+    pets.forEach((item) => {
+      let distance =
+        ((Math.acos(
+          Math.sin((req.body.latitude * Math.PI) / 180) *
+            Math.sin((item.latitude * Math.PI) / 180) +
+            Math.cos((req.body.latitude * Math.PI) / 180) *
+              Math.cos((item.latitude * Math.PI) / 180) *
+              Math.cos(((req.body.longitude - item.longitude) * Math.PI) / 180)
+        ) *
+          180) /
+          Math.PI) *
+        60 *
+        1.1515;
+      if (distance < req.body.radius) {
+        output.push(item);
+      }
+    });
+    res.status(200).send(output);
+  } catch (error) {
     res.status(400).send({});
   }
 });

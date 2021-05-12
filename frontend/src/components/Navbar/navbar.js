@@ -12,7 +12,7 @@ import p4 from "../../Icons/p4.webp";
 // import { Card } from "antd";
 import "./footer.css";
 import { Link } from "react-router-dom";
-import LandingPage from "./../landingPage/landingpage";
+import LandingPage from "./../landingPage/landingPage";
 import "./navbar.css";
 // import { Row, Col } from "react-bootstrap";
 
@@ -55,7 +55,7 @@ class Navbar extends Component {
               position: "fixed",
               width: "100%",
               backgroundColor: "#fff",
-              padding: "5px 5%",
+              padding: "5px 15px",
               zIndex: "3",
               transition: "0.3s all ease",
               boxShadow: localStorage.getItem("userProfile")
@@ -123,36 +123,36 @@ class Navbar extends Component {
                         I Found Or Lost a Pet
                       </Link>
                     </div>
+                    <div className="navbar-buttons" style={{ width: "120px" }}>
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Georgia, serif",
+                        }}
+                        to="/search"
+                      >
+                        Search
+                      </Link>
+                    </div>
+                    <div className="navbar-buttons" style={{ width: "150px" }}>
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Georgia, serif",
+                        }}
+                        to="/prevdata"
+                      >
+                        Previous Data
+                      </Link>
+                    </div>
                   </>
                 ) : (
                   ""
                 )}
-                <div className="navbar-buttons">
-                  <Link
-                    className="navbar-links"
-                    style={{
-                      color: "black",
-                      fontWeight: "540",
-                      fontFamily: "Georgia, serif",
-                    }}
-                    to="/whomtocontact"
-                  >
-                    Contact
-                  </Link>
-                </div>
-                <div className="navbar-buttons">
-                  <Link
-                    className="navbar-links"
-                    style={{
-                      color: "black",
-                      fontWeight: "540",
-                      fontFamily: "Georgia, serif",
-                    }}
-                    to="/stolenpets"
-                  >
-                    Stolen Pets
-                  </Link>
-                </div>
 
                 {localStorage.getItem("userProfile") ? (
                   <div className="navbar-buttons">
@@ -177,29 +177,57 @@ class Navbar extends Component {
                     </Link>
                   </div>
                 ) : (
-                  <div
-                    style={{
-                      width: "120px",
-                      padding: "3px 12px",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Link
-                      className="navbar-links"
+                  <>
+                    <div className="navbar-buttons">
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Georgia, serif",
+                        }}
+                        to="/whomtocontact"
+                      >
+                        Contact
+                      </Link>
+                    </div>
+                    <div className="navbar-buttons">
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Georgia, serif",
+                        }}
+                        to="/stolenpets"
+                      >
+                        Stolen Pets
+                      </Link>
+                    </div>
+                    <div
                       style={{
-                        color: "black",
-                        fontWeight: "540",
-                        fontFamily: "Roboto",
-                        boxShadow:
-                          "20px 20px 41px #808080, -20px -20px 41px #eee",
-                        // border: "2px solid #555",
-                        borderRadius: "10px",
+                        width: "120px",
+                        padding: "3px 12px",
+                        textAlign: "center",
                       }}
-                      to="/login"
                     >
-                      Login
-                    </Link>
-                  </div>
+                      <Link
+                        className="navbar-links"
+                        style={{
+                          color: "black",
+                          fontWeight: "540",
+                          fontFamily: "Roboto",
+                          boxShadow:
+                            "20px 20px 41px #808080, -20px -20px 41px #eee",
+                          // border: "2px solid #555",
+                          borderRadius: "10px",
+                        }}
+                        to="/login"
+                      >
+                        Login
+                      </Link>
+                    </div>
+                  </>
                 )}
               </div>
             </div>

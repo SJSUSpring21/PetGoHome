@@ -3,6 +3,7 @@ import "antd/dist/antd.css";
 import axios from "axios";
 import backendServer from "../../webconfig";
 import "./login.css";
+import { Redirect } from "react-router";
 
 class Login extends Component {
   constructor(props) {
@@ -51,9 +52,11 @@ class Login extends Component {
         password: this.state.signupPassword,
         email: this.state.signupEmail,
       };
+      console.log(data);
       axios
         .post(backendServer + "/admin/signup", data)
         .then((response) => {
+          console.log(response.data);
           if (response.status === 200) {
             localStorage.setItem("userProfile", JSON.stringify(response.data));
             this.props.history.push("/home");
@@ -69,6 +72,7 @@ class Login extends Component {
     // console.log(this.state);
     return (
       <>
+        {localStorage.getItem("userProfile") ? <Redirect to="/feed" /> : ""}
         {/* {JSON.stringify(this.state)} */}
         <div style={{ width: "50%", margin: "auto" }}></div>
         <div
@@ -172,9 +176,7 @@ class Login extends Component {
             <form
               className="row g-3 needs-validation"
               noValidate
-              onSubmit={() => {
-                this.signUp();
-              }}
+              onSubmit={this.signUp}
             >
               <div className="form-floating mb-3">
                 <input

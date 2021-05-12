@@ -169,16 +169,23 @@ export default function MapsWithIcon() {
   return (
     <>
       <div>
-        <h5 style={{ textAlign: "center" }}>
+        <h5 style={{ textAlign: "center", marginTop: "10px" }}>
           Previous Lost and Found pet data.
         </h5>
       </div>
       <div>
-        <div style={{ marginBottom: "2%" }}></div>
+        <div></div>
         {/* --------------------------------------------------------------------------------
       -----------------------------END OF FORM---------------------------------------- */}
-        <div style={{ width: "100vw", height: "80vh", padding: "0 80px" }}>
+        <div
+          style={{
+            width: "100vw",
+            height: "80vh",
+            padding: "0 80px",
+          }}
+        >
           <MapWrapped
+            style={{ border: "1px solid #bbb" }}
             googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=${GoogleURL}`}
             loadingElement={<div style={{ height: `100%` }} />}
             containerElement={<div style={{ height: `100%` }} />}

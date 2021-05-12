@@ -27,6 +27,7 @@ app.post("/admin/signin", async (req, res) => {
 });
 
 app.post("/admin/signup", async (req, res) => {
+  console.log(req.body);
   try {
     const user = await db.User.create({
       email: req.body.email,
