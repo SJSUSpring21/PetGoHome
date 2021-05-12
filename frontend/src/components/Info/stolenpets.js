@@ -62,7 +62,7 @@ export default function stolenpets() {
                 <Paper
                   className={GridClasses.paper}
                   elevation={8}
-                  style={{ borderRadius: "35px" }}
+                  style={{ borderRadius: "35px", backgroundColor: "#f5f9fc" }}
                 >
                   <h2
                     className="appSubHeadings"
@@ -125,7 +125,7 @@ export default function stolenpets() {
             <Paper
               className={GridClasses.paper}
               elevation={8}
-              style={{ borderRadius: "35px" }}
+              style={{ borderRadius: "35px", backgroundColor: "#f5f9fc" }}
             >
               <h2 className="appSubHeadings" style={{ fontFamily: "Roboto" }}>
                 Advice for Recovering a Stolen Pet:

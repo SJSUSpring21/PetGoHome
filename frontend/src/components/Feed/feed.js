@@ -306,15 +306,16 @@ export default function Feed() {
                       //  color="textSecondary"
                       component="p"
                     >
-                      {location.record_type + " - location"}
-                      <br></br>
+                      <h6>{location.record_type + " - location"}</h6>
 
-                      {location.location +
-                        " (" +
-                        location.latitude +
-                        ", " +
-                        location.longitude +
-                        ")"}
+                      <h6>
+                        {location.location +
+                          " (" +
+                          location.latitude +
+                          ", " +
+                          location.longitude +
+                          ")"}
+                      </h6>
                     </Typography>
                   </CardContent>
                   <CardActions disableSpacing>
@@ -328,13 +329,16 @@ export default function Feed() {
                       onClick={handleExpandClick}
                       aria-expanded={expanded}
                       aria-label="show more"
+                      style={{ padding: "0px" }}
                     >
                       <ExpandMoreIcon />
                     </IconButton>
                   </CardActions>
                   <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent style={{ marginTop: "0px" }}>
-                      <Typography paragraph>Details </Typography>
+                      <Typography paragraph>
+                        <h5>Recent Sightings</h5>{" "}
+                      </Typography>
 
                       {/* <PDFGenerator details={location}></PDFGenerator> */}
 
@@ -379,7 +383,7 @@ export default function Feed() {
             <Button
               variant="contained"
               style={{
-                width: "16%",
+                width: "26%",
                 height: "55px",
                 borderRadius: "13px",
                 marginBottom: "2%",
@@ -387,7 +391,7 @@ export default function Feed() {
               }}
               onClick={GoToLost}
             >
-              Report Pet
+              Report in PetGoHome
             </Button>
           </div>
         </div>

@@ -68,7 +68,11 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px", height: "250px" }}
+                style={{
+                  borderRadius: "45px",
+                  height: "250px",
+                  backgroundColor: "#f5f9fc",
+                }}
               >
                 <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <StarIcon></StarIcon>Police and Animal Control
@@ -89,7 +93,11 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px", height: "250px" }}
+                style={{
+                  borderRadius: "45px",
+                  height: "250px",
+                  backgroundColor: "#f5f9fc",
+                }}
               >
                 <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <LockIcon></LockIcon>Pounds and Shelters
@@ -116,7 +124,11 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px", height: "420px" }}
+                style={{
+                  borderRadius: "45px",
+                  height: "420px",
+                  backgroundColor: "#f5f9fc",
+                }}
               >
                 <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <HomeIcon></HomeIcon>Humane Societies
@@ -149,7 +161,11 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px", height: "420px" }}
+                style={{
+                  borderRadius: "45px",
+                  height: "420px",
+                  backgroundColor: "#f5f9fc",
+                }}
               >
                 <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   <PersonIcon></PersonIcon>Rescue Groups
@@ -183,7 +199,7 @@ export default function WhomToContact() {
               <Paper
                 className={GridClasses.paper}
                 elevation={8}
-                style={{ borderRadius: "45px" }}
+                style={{ borderRadius: "45px", backgroundColor: "#f5f9fc" }}
               >
                 <h2 className="appHeadings" style={{ fontFamily: "Roboto" }}>
                   How To Identify the Agencies Near You
