@@ -1,36 +1,13 @@
 import React from "react";
-// import TextField from "@material-ui/core/TextField";
-// import { makeStyles } from "@material-ui/core/styles";
-// import Checkbox from "@material-ui/core/Checkbox";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import ToggleButton from "@material-ui/lab/ToggleButton";
-// import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
-// import Paper from "@material-ui/core/Paper";
-// import Grid from "@material-ui/core/Grid";
-// import { Row } from "antd";
-// import DateRangeIcon from "@material-ui/icons/DateRange";
-// import EmailIcon from "@material-ui/icons/Email";
-// import PhoneIcon from "@material-ui/icons/Phone";
-// import StreetviewIcon from "@material-ui/icons/Streetview";
-// import PetsIcon from "@material-ui/icons/Pets";
-// import DetailsIcon from "@material-ui/icons/Details";
-// import PhoneAndroidIcon from "@material-ui/icons/PhoneAndroid";
-// import { Carousel } from "antd";
 import "antd/dist/antd.css";
-// import Reunion1 from "../../Icons/Reunion1.jpeg";
-// import Reunion2 from "../../Icons/Reunion2.jpeg";
-// import Reunion3 from "../../Icons/Reunion3.jpeg";
-// import Reunion4 from "../../Icons/Reunion4.jpeg";
-// import Reunion6 from "../../Icons/Reunion6.jpeg";
-// import FileUpload from "../Upload/upload";
 import "./lostOrFound.css";
-// import GoogleMap from "../GoogleMaps/GoogleMap";
+import axios from "axios";
+import backendServer from "../../webconfig";
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-places-autocomplete";
-// import { Redirect } from "react-router";
 import { Component } from "react";
 import {
   Col,
@@ -38,137 +15,8 @@ import {
   Row,
   ButtonGroup,
   ToggleButton,
-  // InputGroup,
   Button,
 } from "react-bootstrap";
-// import { FormControl } from "@material-ui/core";
-// import { ButtonGroup } from "@material-ui/core";
-
-// // Image Carousel
-// const contentStyle = {
-//   height: "350px",
-//   color: "#fff",
-//   lineHeight: "160px",
-//   width: "60%",
-//   textAlign: "center",
-//   background: "#FFFFFF",
-//   marginLeft: "20%",
-//   marginTop: "1%",
-// };
-
-// const petReportTypes = [
-//   {
-//     value: "Lost",
-//     label: "Lost",
-//   },
-//   {
-//     value: "Sighting",
-//     label: "Sighting",
-//   },
-//   {
-//     value: "Found",
-//     label: "Found",
-//   },
-//   {
-//     value: "Found Deceased",
-//     label: "Found Deceased",
-//   },
-// ];
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     "& .MuiTextField-root": {
-//       margin: theme.spacing(1),
-//       width: "25ch",
-//     },
-//   },
-
-//   textField: {
-//     marginLeft: theme.spacing(1),
-//     marginRight: theme.spacing(1),
-//     width: "30ch",
-//   },
-// }));
-
-// const useGridStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   paper: {
-//     padding: theme.spacing(3),
-//     textAlign: "left",
-//     color: theme.palette.text.secondary,
-//   },
-// }));
-
-// // const DropdownStyles = makeStyles((theme) => ({
-// //   root: {
-// //     "& .MuiTextField-root": {
-// //       margin: theme.spacing(1),
-// //       width: "25ch",
-// //     },
-// //   },
-// // }));
-
-// export default function Home(props) {
-//   const classes = useStyles();
-//   const [checked, setChecked] = React.useState(false);
-//   const [ButtonGroup, setButtonGroup] = React.useState("left");
-//   const GridStyles = useGridStyles();
-
-//   const handleBtnGroup = (event, newButtonGroup) => {
-//     setButtonGroup(newButtonGroup);
-//   };
-
-//   // const Dropdown = DropdownStyles();
-//   const [ReportType, setReportType] = React.useState("EUR");
-
-//   const handleDropDownChange = (event) => {
-//     setReportType(event.target.value);
-//   };
-
-//   const handleChange = (event) => {
-//     setChecked(event.target.checked);
-//   };
-
-//   const displayImages = () => {
-//     let images = [Reunion1, Reunion6, Reunion3, Reunion4];
-//     // let htmlCode = [];
-//     return (
-//       <>
-//         {localStorage.getItem("userProfile") ? "" : <Redirect to="/" />}
-//         <Paper elevation={10} style={contentStyle} justify="center">
-//           <Carousel autoplay effect="fade">
-//             {images.map((img) => {
-//               return (
-//                 <div>
-//                   <img
-//                     src={img}
-//                     style={{
-//                       width: "100%",
-//                       height: "350px",
-//                     }}
-//                     alt=""
-//                   ></img>
-//                 </div>
-//               );
-//             })}
-//           </Carousel>
-//         </Paper>
-//       </>
-//     );
-//   };
-
-//   // const carouselText = () => {
-//   //   return (
-//   //     <>
-//   //       <Carousel autoplay effect="fade">
-//   //         <div>This is just a text</div>
-//   //       </Carousel>
-//   //     </>
-//   //   );
-//   // };
-
 class LostOrFound extends Component {
   constructor(props) {
     super(props);
@@ -192,10 +40,14 @@ class LostOrFound extends Component {
       description: null,
       picture: null,
       selected: null,
+      breed: null,
+      gender: null,
       address: "",
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
+      latitude: null,
+      longitude: null,
       mapCenter: {
         lat: 37.3352,
         lng: -121.8811,
@@ -212,14 +64,44 @@ class LostOrFound extends Component {
       .then((results) => getLatLng(results[0]))
       .then((latLng) => {
         this.setState({ address });
-        console.log("Success", latLng);
-        this.setState({ mapCenter: latLng });
+        this.setState({
+          mapCenter: latLng,
+          latitude: latLng.lat,
+          longitude: latLng.lng,
+        });
       })
       .catch((error) => console.error("Error", error));
   };
 
   submitDetails = async () => {
     // window.alert("button clicked");
+    let userProfile = JSON.parse(localStorage.getItem("userProfile"));
+    let data = {
+      pet_name: this.state.petname,
+      ownerid: userProfile ? userProfile.userid : null,
+      record_type: this.state.reporttype,
+      pet_type: this.state.pettype,
+      phone: this.state.mobile,
+      email: this.state.email,
+      missing_date: this.state.date,
+      location: this.state.address,
+      picture: this.state.picture,
+      description: this.state.description,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      breed: this.state.breed,
+      gender: this.state.gender,
+    };
+    axios
+      .post(backendServer + "/reportLostPet", data)
+      .then((response) => {
+        console.log(response);
+        window.alert("Report Created");
+        // this.setState
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   render() {
@@ -310,15 +192,16 @@ class LostOrFound extends Component {
     );
     return (
       <div style={{ paddingBottom: "100px" }}>
-        {JSON.stringify(this.state)}
+        {/* {JSON.stringify(this.state)} */}
         <div
           className="lostFound"
           style={{
             // padding: "15px 100px",
             width: "80%",
-            margin: " 20px auto",
+            margin: " 40px auto",
             boxShadow: "20px 20px 60px #bebebe, -20px -20px 60px #ffffff",
             borderRadius: "25px",
+            overflow: "hidden",
             backgroungColor: "#f5f9fc",
           }}
         >
@@ -328,7 +211,8 @@ class LostOrFound extends Component {
               fontSize: "38px",
               fontWeight: "700",
               marginBottom: "30px",
-              fontFamily: "Sirin Stencil",
+              paddingTop: "10px",
+              // fontFamily: "Sirin Stencil",
               height: "80px",
               backgroundColor: "#85a1b4",
             }}
@@ -338,14 +222,14 @@ class LostOrFound extends Component {
           <Form
             style={{
               padding: "2%",
-              fontFamily: "Sirin Stencil",
+              // fontFamily: "Sirin Stencil",
               fontSize: "20px",
             }}
           >
             <Row style={{ margin: "0" }}>
               <Col>
                 <label style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Enter your petname
+                  Your Petname
                 </label>
                 <Form.Control
                   type="text"
@@ -357,7 +241,7 @@ class LostOrFound extends Component {
               </Col>
               <Col>
                 <label style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Enter your Name
+                  Your Name
                 </label>
                 <Form.Control
                   type="text"
@@ -371,7 +255,7 @@ class LostOrFound extends Component {
             <Row style={{ margin: "0" }}>
               <Col>
                 <label style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Enter your Email address
+                  Email Address
                 </label>
                 <Form.Control
                   type="text"
@@ -383,13 +267,13 @@ class LostOrFound extends Component {
               </Col>
               <Col>
                 <label style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Enter your Mobile Number
+                  Contact Number
                 </label>
                 <Form.Control
                   type="number"
                   placeholder="Mobile"
                   onChange={(e) => {
-                    this.setState({ number: e.target.value });
+                    this.setState({ mobile: e.target.value });
                   }}
                 />
               </Col>
@@ -409,13 +293,12 @@ class LostOrFound extends Component {
                   <option>Choose...</option>
                   <option>Lost</option>
                   <option>Found</option>
-                  <option>Sighted</option>
                   <option>Stolen</option>
                 </Form.Control>
               </Col>
               <Col>
                 <label style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Date
+                  Missing Date
                 </label>
                 <Form.Control
                   type="date"
@@ -424,6 +307,36 @@ class LostOrFound extends Component {
                     this.setState({ date: e.target.value });
                   }}
                 />
+              </Col>
+            </Row>
+            <Row style={{ margin: "0" }}>
+              <Col>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Breed
+                </label>
+                <Form.Control
+                  type="text"
+                  placeholder="name"
+                  onChange={(e) => {
+                    this.setState({ breed: e.target.value });
+                  }}
+                />
+              </Col>
+              <Col>
+                <label style={{ color: "#000000", paddingBottom: "5px" }}>
+                  Gender
+                </label>
+                <Form.Control
+                  as="select"
+                  defaultValue="Choose..."
+                  onChange={(e) => {
+                    this.setState({ gender: e.target.value });
+                  }}
+                >
+                  <option>Choose...</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                </Form.Control>
               </Col>
             </Row>
             <Row style={{ margin: "0", justifyContent: "center" }}>
@@ -444,7 +357,7 @@ class LostOrFound extends Component {
                     paddingBottom: "5px",
                   }}
                 >
-                  Select the type of you pet
+                  Type of Pet
                 </div>
                 <ButtonGroup toggle>
                   {this.state.radios.map((radio, idx) => (
@@ -488,7 +401,7 @@ class LostOrFound extends Component {
                     paddingBottom: "5px",
                   }}
                 >
-                  Description about your pet
+                  Description about your Pet
                 </div>
                 <div style={{ padding: "0 22px" }}>
                   <textarea
@@ -508,7 +421,7 @@ class LostOrFound extends Component {
             <Row style={{ justifyContent: "center", textAlign: "center" }}>
               <Col xs={6}>
                 <div style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Upload a picture
+                  Upload a Picture
                 </div>
                 <div
                   style={{
@@ -539,9 +452,49 @@ class LostOrFound extends Component {
                   )}
                 </div>
                 <div>
-                  <Form.File id="formcheck-api-regular">
-                    <Form.File.Input style={{ width: "50%" }} />
-                  </Form.File>
+                  <div>
+                    <input
+                      type="file"
+                      id="myFile"
+                      style={{ width: "50%" }}
+                      onChange={async (e) => {
+                        let formData = new FormData();
+                        let imageName = e.target.files[0].name;
+                        let file1 = e.target.files[0];
+                        console.log(file1);
+                        formData.append("myImage", file1);
+                        for (var key of formData.entries()) {
+                          console.log(key[0] + ", " + key[1]);
+                        }
+                        const config = {
+                          headers: { "content-type": "multipart/form-data" },
+                        };
+                        let data = {
+                          formD: formData,
+                          conf: config,
+                        };
+                        console.log(data);
+                        axios
+                          .post(backendServer + "/uploadPic", formData)
+                          .then((response) => {
+                            console.log(response);
+                            this.setState({
+                              picture: imageName,
+                            });
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
+                        // await this.props.uploadPic(data);
+                        // if (this.props.uploadPicDetails !== 400) {
+                        //   this.setState({
+                        //     imageUrl: this.props.uploadPicDetails,
+                        //     profilepic: null,
+                        //   });
+                        // }
+                      }}
+                    />
+                  </div>
                 </div>
               </Col>
               <Col
@@ -552,15 +505,21 @@ class LostOrFound extends Component {
                   display: "flex",
                 }}
               >
-                <div style={{ color: "#000000", paddingBottom: "5px" }}>
-                  Location where you have lost or found a pet.
+                <div
+                  style={{
+                    color: "#000000",
+                    paddingBottom: "5px",
+                    marginBottom: "20px",
+                  }}
+                >
+                  Missing Location
                 </div>
                 <div
                   style={{
                     width: "300px",
                     height: "300px",
                     position: "absolute",
-                    top: "8%",
+                    top: "12%",
                     color: "#000",
                     margin: "auto",
                     // border: "1px solid #bbb",
