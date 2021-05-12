@@ -5,11 +5,46 @@ const { Op } = require("sequelize");
 const router = express.Router();
 const Promise = require("bluebird");
 const moment = require("moment");
+const sequelize = require("./../SQL");
 
 app.post("/getLocations", async (req, res) => {
   try {
     const loc = await db.Data.findAll({
       limit: 10,
+      where: {
+        location: {
+          [Op.and]: [
+            { [Op.substring]: req.body.city || "" },
+            {
+              [Op.substring]: req.body.state ? " " + req.body.state + " " : "",
+            },
+            { [Op.substring]: req.body.pin || "" },
+          ],
+        },
+      },
+      attributes: [
+        "id",
+        "record_type",
+        "type",
+        "gender",
+        "color",
+        "breed",
+        "missing_date",
+        "latitude",
+        "longitude",
+        "location",
+        "image",
+      ],
+    });
+    res.status(200).send(loc);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post("/getAllLocations", async (req, res) => {
+  try {
+    const loc = await db.Data.findAll({
       where: {
         location: {
           [Op.and]: [
@@ -66,7 +101,10 @@ app.post("/getLocationsForFeed", async (req, res) => {
             req.body.record_type !== "All" ? req.body.record_type : "",
         },
         missing_date: {
-          [Op.gte]: moment().subtract(req.body.missing_date, "days").toDate(),
+          [Op.gte]:
+            req.body.missing_date !== "All"
+              ? moment().subtract(req.body.missing_date, "days").toDate()
+              : moment().subtract("1000", "days").toDate(),
         },
       },
       include: [db.User],
@@ -135,6 +173,39 @@ app.post("/getLatLong", async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+});
+app.post("/postSighting", async (req, res) => {
+  console.log(req.body);
+  try {
+    const sight = await db.Sightings.create({
+      name: req.body.name,
+      userid: req.body.userid,
+      petid: req.body.petid,
+      time_stamp: sequelize.fn("NOW"),
+      latitude: req.body.latitude,
+      longitude: req.body.longitude,
+      location: req.body.location,
+    });
+    console.log(sight);
+    res.status(200).send(sight);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({});
+  }
+});
+
+app.post("/getSightings", async (req, res) => {
+  try {
+    const sight = await db.Sightings.findAll({
+      where: { petid: req.body.petid },
+      order: [["time_stamp", "ASC"]],
+    });
+    console.log(sight);
+    res.status(200).send(sight);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({});
   }
 });
 

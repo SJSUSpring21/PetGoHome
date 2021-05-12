@@ -40,6 +40,7 @@ import background from "../../Icons/back.jpeg";
 import Fb from "./fb";
 
 import PlacesAuto from "./placesAuto";
+import SightingLocation from "./sightinglocation";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -109,17 +110,17 @@ export default function Feed() {
   const [locations, setLocations] = useState(null);
 
   const [speciesValue, setSpeciesValue] = useState("All");
-  const [DateValue, setDateValue] = useState("30");
+  const [DateValue, setDateValue] = useState("All");
   const [value, setValue] = useState([]);
   const [recordTypeValue, setRecordTypeValue] = useState("All");
   const [address, SetAddress] = useState("");
-
-  navigator.geolocation.getCurrentPosition(function (position) {
-    window.alert("Latitude is :" + String(position.coords.latitude));
-    console.log("Longitude is :", position.coords.longitude);
-  });
+  const [buttonClick, SetButtonCLick] = useState(false);
 
   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      window.alert("Latitude is :" + String(position.coords.latitude));
+      console.log("Longitude is :", position.coords.longitude);
+    });
     axios
       .post(backendServer + "/getLocationsForFeed", {
         pet_type: speciesValue,
@@ -127,18 +128,17 @@ export default function Feed() {
         missing_date: DateValue,
       })
       .then((response) => {
+        SetButtonCLick(false);
         console.log(response.data);
-        if (response.data.length > 0) {
-          setLocations(response.data);
-          let values = Array(response.data.length).fill(0);
-          setValue(values);
-        }
+        setLocations(response.data);
+        let values = Array(response.data.length).fill(0);
+        setValue(values);
       })
 
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [buttonClick]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -170,7 +170,21 @@ export default function Feed() {
   const handleRecordTypeChange = (event) => {
     setRecordTypeValue(event.target.value);
   };
-  const OnFindClick = (event) => {};
+  const OnFindClick = () => {
+    axios
+      .post(backendServer + "/getLocationsForFeed", {
+        pet_type: speciesValue,
+        record_type: recordTypeValue,
+        missing_date: DateValue,
+      })
+      .then((response) => {
+        SetButtonCLick(true);
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const GoToLost = (event) => {};
 
@@ -178,7 +192,7 @@ export default function Feed() {
     return (
       <>
         {localStorage.getItem("userProfile") ? "" : <Redirect to="/" />}
-        {console.log(locations)}
+        {/* {console.log(locations)} */}
         {locations
           ? locations.map((location, idx) => (
               <div style={{ marginLeft: "5%", marginRight: "5%" }}>
@@ -316,7 +330,9 @@ export default function Feed() {
                             width: "200%",
                           }}
                         >
-                          <PetLocation location={location}></PetLocation>
+                          <SightingLocation
+                            location={location}
+                          ></SightingLocation>
                         </div>
                       </div>
                     </TabPanel>
@@ -475,6 +491,16 @@ export default function Feed() {
                         control={<Radio />}
                         label="Cat"
                       />
+                      <FormControlLabel
+                        value="Bird"
+                        control={<Radio />}
+                        label="Bird"
+                      />
+                      <FormControlLabel
+                        value="Rabbit"
+                        control={<Radio />}
+                        label="Rabbit"
+                      />
                     </RadioGroup>
                   </FormControl>
                 </div>
@@ -484,6 +510,11 @@ export default function Feed() {
                   <FormControl component="fieldset">
                     <FormLabel component="legend">Within Past</FormLabel>
                     <RadioGroup value={DateValue} onChange={handleDateChange}>
+                      <FormControlLabel
+                        value="All"
+                        control={<Radio />}
+                        label="All"
+                      />
                       <FormControlLabel
                         value="30"
                         control={<Radio />}

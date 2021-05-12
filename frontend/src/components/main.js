@@ -18,6 +18,7 @@ import PetLocation from "./Feed/petlocation";
 import HowItWorks from "./Info/HowitWorks";
 import PdfGenerator from "./Feed/pdfgenerator";
 import SearchComponent from "./mapswithicon/searchPage";
+import Prevdata from "./prevdata/prevdata";
 
 class Main extends Component {
   constructor(props) {
@@ -46,6 +47,7 @@ class Main extends Component {
           <Route path="/howitworks" component={HowItWorks} />
           <Route path="/pdfgenerator" component={PdfGenerator} />
           <Route path="/search" component={SearchComponent} />
+          <Route path="/prevdata" component={Prevdata} />
         </div>
       </div>
     );

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import backendServer from "../../webconfig";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -14,20 +16,22 @@ function PlacesAuto(props) {
     lng: null,
   });
 
-  // useEffect(() => {
-  //   axios
-  //     .post(backendServer + "/getLocations")
-  //     .then((response) => {
-  //       if (response.data.length > 0) {
-  //         setLocations(response.data);
+  useEffect(() => {
+    axios
+      .post(backendServer + "/getSightings", {
+        petid: props.details.petid,
+      })
+      .then((response) => {
+        if (response.data.length > 0) {
+          setLocations(response.data);
+          console.log(response.data);
+        }
+      })
 
-  //       }
-  //     })
-
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
@@ -37,18 +41,46 @@ function PlacesAuto(props) {
   };
 
   const handleOnClick = () => {
-    window.alert(props.details.id);
+    axios
+      .post(backendServer + "/postSighting", {
+        location: address,
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
+        name: JSON.parse(localStorage.getItem("userProfile")).username,
+        userid: JSON.parse(localStorage.getItem("userProfile")).userid,
+        petid: props.details.petid,
+      })
+      .then((response) => {
+        setAddress("");
+        axios
+          .post(backendServer + "/getSightings", {
+            petid: props.details.petid,
+          })
+          .then((response) => {
+            if (response.data.length > 0) {
+              setLocations(response.data);
+            }
+          })
+
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
     <div>
       {locations ? (
-        (locations.map = (location) => {
-          <div>
-            {location.name} saw the pet in {location.location} on{" "}
-            {location.Date}.
-          </div>;
-        })
+        locations.map((location) => (
+          <div style={{ border: "1px solid #555", padding: "5px 10px" }}>
+            {location.name} sighted the pet near {location.location} on{" "}
+            {String(location.time_stamp).substr(0, 10)}
+          </div>
+        ))
       ) : (
         <div>No recent sightings of the pet..!</div>
       )}

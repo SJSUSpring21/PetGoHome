@@ -3,8 +3,14 @@ import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import { Component } from "react";
 import { Redirect } from "react-router-dom";
 import backendServer from "../../webconfig";
+import {
+  withGoogleMap,
+  withScriptjs,
+  GoogleMap,
+  InfoWindow,
+} from "react-google-maps";
 import axios from "axios";
-class PetLocation extends Component {
+class SightingLocation extends Component {
   constructor(props) {
     super(props);
     this.state = { selectedLocation: null };
@@ -12,13 +18,19 @@ class PetLocation extends Component {
 
   componentDidMount = async () => {
     axios
-      .post(backendServer + "/getLocations")
+      .post(backendServer + "/getSightings", {
+        petid: this.props.location.petid,
+      })
       .then((response) => {
+        console.log(response.data);
         if (response.data.length > 0) {
           let values = Array(response.data.length).fill(0);
           this.setState({ locations: response.data, values: values });
+          console.log("mount component");
+          console.log(this.state.locations);
         }
       })
+
       .catch((err) => {
         console.log(err);
       });
@@ -75,22 +87,24 @@ class PetLocation extends Component {
               scaledSize: new window.google.maps.Size(48, 48),
             }}
           />
-          {/* {this.state.locations.forEach((item) => (
-            <Marker
-              position={{
-                lat: item.latitude,
-                lng: item.longitude,
-              }}
-              icon={{
-                url: "/other.png",
-                onClick={() => {
-                this.onMarkerClick(location);
-              }}
+          {this.state.locations
+            ? this.state.locations.map((item) => (
+                <Marker
+                  position={{
+                    lat: item.latitude,
+                    lng: item.longitude,
+                  }}
+                  onClick={() => {
+                    this.onMarkerClick(item);
+                  }}
+                  icon={{
+                    url: "/pawprints.png",
 
-                scaledSize: new window.google.maps.Size(48, 48),
-              }}
-            />
-          ))} */}
+                    scaledSize: new window.google.maps.Size(30, 30),
+                  }}
+                />
+              ))
+            : null}
 
           {this.selectedLocation && (
             <InfoWindow
@@ -122,4 +136,4 @@ class PetLocation extends Component {
 // export default Home;
 export default GoogleApiWrapper({
   apiKey: "AIzaSyDKT5mLiGAU26aO5yCoHbQwHVOX2W5JHp0",
-})(PetLocation);
+})(SightingLocation);
