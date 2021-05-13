@@ -75,6 +75,32 @@ app.post("/getAllLocations", async (req, res) => {
     console.log(error);
   }
 });
+app.post("/getShelters", async (req, res) => {
+  try {
+    let sheltrs = await db.Shelters.findAll({});
+    let output = [];
+    sheltrs.forEach((item) => {
+      let distance =
+        ((Math.acos(
+          Math.sin((req.body.latitude * Math.PI) / 180) *
+            Math.sin((item.latitude * Math.PI) / 180) +
+            Math.cos((req.body.latitude * Math.PI) / 180) *
+              Math.cos((item.latitude * Math.PI) / 180) *
+              Math.cos(((req.body.longitude - item.longitude) * Math.PI) / 180)
+        ) *
+          180) /
+          Math.PI) *
+        60 *
+        1.1515;
+      if (distance < 5) {
+        output.push(item);
+      }
+    });
+    res.status(200).send(output);
+  } catch (error) {
+    res.status(400).send({});
+  }
+});
 
 app.post("/getLocationsForFeed", async (req, res) => {
   // console.log(req.body);
@@ -282,16 +308,25 @@ app.post("/getShelters", async (req, res) => {
 });
 
 app.post("/searchPets", async (req, res) => {
+  console.log(req.body);
   try {
     let pets = await db.LostPet.findAll({
       where: {
-        location: { [Op.substring]: req.body.location },
-        report_type: req.body.report_type,
-        pet_type: req.body.pet_type,
+        pet_type: {
+          [Op.substring]: req.body.pet_type !== "All" ? req.body.pet_type : "",
+        },
+        record_type: {
+          [Op.substring]:
+            req.body.record_type !== "All" ? req.body.record_type : "",
+        },
         missing_date: {
-          [Op.gte]: moment().subtract(req.body.missing_date, "days").toDate(),
+          [Op.gte]:
+            req.body.missing_date !== "All"
+              ? moment().subtract(req.body.missing_date, "days").toDate()
+              : moment().subtract("1000", "days").toDate(),
         },
       },
+      include: [db.User],
     });
     let output = [];
     pets.forEach((item) => {

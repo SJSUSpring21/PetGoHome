@@ -4,15 +4,19 @@ import { Component } from "react";
 import { Redirect } from "react-router-dom";
 import backendServer from "../../webconfig";
 import axios from "axios";
+import { InfoWindow } from "react-google-maps";
 class PetLocation extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { selectedLocation: null };
   }
 
   componentDidMount = async () => {
     axios
-      .post(backendServer + "/getLocations")
+      .post(backendServer + "/getShelters", {
+        latitude: this.props.location.latitude,
+        longitude: this.props.location.longitude,
+      })
       .then((response) => {
         if (response.data.length > 0) {
           let values = Array(response.data.length).fill(0);
@@ -23,6 +27,10 @@ class PetLocation extends Component {
         console.log(err);
       });
   };
+  onMarkerClick(location) {
+    this.setState({ selectedLocation: location });
+    console.log(this.state.selectedLocation);
+  }
 
   render() {
     let cards = [];
@@ -71,20 +79,41 @@ class PetLocation extends Component {
               scaledSize: new window.google.maps.Size(48, 48),
             }}
           />
-        </Map>
-        {/* {this.props.shelters.forEach((item) => (
-          <Marker
-            position={{
-              lat: item.latitude,
-              lng: item.longitude,
-            }}
-            icon={{
-              url: "/other.png",
 
-              scaledSize: new window.google.maps.Size(48, 48),
-            }}
-          />
-        ))} */}
+          {this.state.locations
+            ? this.state.locations.map((item) => (
+                <Marker
+                  position={{
+                    lat: Number(item.latitude),
+                    lng: Number(item.longitude),
+                  }}
+                  onClick={() => {
+                    this.setState({ selectedLocation: item });
+                  }}
+                  icon={{
+                    url: "/shelter.png",
+
+                    scaledSize: new window.google.maps.Size(30, 30),
+                  }}
+                />
+              ))
+            : null}
+
+          {this.state.selectedLocation && (
+            <InfoWindow
+              onCloseClick={() => {
+                this.setState({ selectedLocation: null });
+              }}
+              position={{
+                lat: Number(this.state.selectedlocation.latitude),
+                lng: Number(this.state.selectedlocation.longitude),
+              }}
+            >
+              <div>This is a test</div>
+            </InfoWindow>
+          )}
+        </Map>
+        {/* {console.log(this.state.locations ? this.state.locations[0] : "none")} */}
       </div>
     );
 

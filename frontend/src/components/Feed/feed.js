@@ -186,7 +186,9 @@ export default function Feed() {
       });
   };
 
-  const GoToLost = (event) => {};
+  const GoToLost = (event) => {
+    return <Redirect to="/lostorfound"></Redirect>;
+  };
 
   const renderCard = () => {
     return (
@@ -255,10 +257,12 @@ export default function Feed() {
                                 height="300"
                               ></img>
                             </td>
+
                             <td>
                               <Fb location={location}></Fb>
                             </td>
                           </tr>
+                          <tr></tr>
                         </table>
 
                         {/* <IconButton
@@ -447,8 +451,6 @@ export default function Feed() {
         >
           <div
             style={{
-              position: "-webkit-sticky",
-              position: "sticky",
               top: "0",
               padding: "5%",
             }}

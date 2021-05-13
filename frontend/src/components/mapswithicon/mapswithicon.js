@@ -27,12 +27,19 @@ function Map() {
   const [city, setCity] = useState("All");
 
   useEffect(() => {
+    let data = {
+      record_type: "Lost",
+      radius: "10",
+      latitude: "37.3352",
+      longitude: "-121.8811",
+      missing_date: "90",
+      pet_type: "Dog",
+    };
+    // console.log(data);
     axios
-      .post(backendServer + "/getLocations")
+      .post(backendServer + "/searchPets", data)
       .then((response) => {
-        if (response.data.length > 0) {
-          setLocations(response.data);
-        }
+        setLocations(response.data);
       })
 
       .catch((err) => {
@@ -59,7 +66,7 @@ function Map() {
 
       {locations ? (
         <GoogleMap
-          defaultZoom={4}
+          defaultZoom={13}
           defaultCenter={{
             lat: Number(locations[0].latitude),
             lng: Number(locations[0].longitude),
@@ -78,21 +85,21 @@ function Map() {
               }}
               icon={{
                 url:
-                  String(location.type) === "Dog"
+                  String(location.pet_type) === "Dog"
                     ? "/dog.png"
-                    : String(location.type) === "Cat"
+                    : String(location.pet_type) === "Cat"
                     ? "/cat.png"
-                    : String(location.type) === "Bird"
+                    : String(location.pet_type) === "Bird"
                     ? "/bird.png"
-                    : String(location.type) === "Goat"
+                    : String(location.pet_type) === "Goat"
                     ? "/goat.png"
-                    : String(location.type) === "Horse"
+                    : String(location.pet_type) === "Horse"
                     ? "/horse.png"
-                    : String(location.type) === "Tortoise"
+                    : String(location.pet_type) === "Tortoise"
                     ? "/tortoise.png"
-                    : String(location.type) === "Rabbit"
+                    : String(location.pet_type) === "Rabbit"
                     ? "/rabbit.png"
-                    : String(location.type) === "Pig"
+                    : String(location.pet_type) === "Pig"
                     ? "/pig.png"
                     : "/other.png",
 
@@ -119,7 +126,7 @@ function Map() {
                   <img
                     src={
                       "https://petgohome.s3-us-west-2.amazonaws.com/" +
-                      selectedlocation.image
+                      selectedlocation.picture
                     }
                     alt="petimage"
                     width="350"
@@ -129,15 +136,23 @@ function Map() {
 
                 <Card
                   title={
-                    selectedlocation.type + " - " + selectedlocation.record_type
+                    selectedlocation.pet_type +
+                    " - " +
+                    selectedlocation.record_type
                   }
                   style={{
                     fontFamily: "Sirin Stencil",
                     fontSize: "18px",
                   }}
                 >
+                  <h6>Breed : {selectedlocation.breed}</h6>
                   <h6>Gender : {selectedlocation.gender}</h6>
-                  <h6>Date : {selectedlocation.missing_date}</h6>
+                  <h6>
+                    Date : {String(selectedlocation.missing_date).substr(0, 10)}
+                  </h6>
+                  <h6>Owner Name : {selectedlocation.User.username}</h6>
+                  <h6>Contact : {selectedlocation.phone}</h6>
+
                   <h6>
                     {" "}
                     {selectedlocation.record_type + " - " + "location"}

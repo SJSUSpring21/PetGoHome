@@ -12,7 +12,7 @@ import p4 from "../../Icons/p4.webp";
 // import { Card } from "antd";
 import "./footer.css";
 import { Link } from "react-router-dom";
-import LandingPage from "./../landingPage/landingPage";
+import LandingPage from "./../landingPage/landingpage";
 import "./navbar.css";
 // import { Row, Col } from "react-bootstrap";
 

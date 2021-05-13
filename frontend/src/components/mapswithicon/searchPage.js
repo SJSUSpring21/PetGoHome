@@ -13,18 +13,21 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
 import MapsWithIcon from "./mapswithicon";
+import backendServer from "../../webconfig";
+import axios from "axios";
 
 function PlacesAuto(props) {
   const [address, setAddress] = React.useState("");
-  const [locations, setLocations] = React.useState([{}]);
+
   const [date, setDate] = useState("30");
   const [miles, setMiles] = useState("5");
-  const [reportType, setReportType] = useState("");
-  const [species, setSpecies] = useState("");
+  const [reportType, setReportType] = useState("All");
+  const [species, setSpecies] = useState("All");
   const [coordinates, setCoordinates] = React.useState({
     lat: null,
     lng: null,
   });
+  const [mapData, setMapData] = useState([{}]);
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value);
@@ -34,7 +37,24 @@ function PlacesAuto(props) {
   };
 
   const handleOnClick = () => {
-    window.alert("props.details.id");
+    let data = {
+      record_type: reportType,
+      radius: miles,
+      latitude: coordinates.lat,
+      longitude: coordinates.lng,
+      missing_date: date,
+      pet_type: species,
+    };
+    // console.log(data);
+    axios
+      .post(backendServer + "/searchPets", data)
+      .then((response) => {
+        console.log(response.data);
+      })
+
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleDateChange = (event) => {
@@ -42,6 +62,7 @@ function PlacesAuto(props) {
   };
   return (
     <div style={{ marginLeft: "10%", marginRight: "20%" }}>
+      {/* {JSON.stringify(coordinates)} */}
       {/* {address}
       <br></br>
       {miles}
@@ -132,8 +153,8 @@ function PlacesAuto(props) {
                     {suggestions.map((suggestion) => {
                       const style = {
                         backgroundColor: suggestion.active
-                          ? "#8dc63f"
-                          : "#85a1b4",
+                          ? "#d3d3d3"
+                          : "#f5f9fc",
                       };
 
                       return (
@@ -279,7 +300,8 @@ function PlacesAuto(props) {
           marginTop: "28px",
         }}
       >
-        <MapsWithIcon></MapsWithIcon>
+        {console.log("this" + mapData)}
+        <MapsWithIcon locations={mapData}></MapsWithIcon>
       </Paper>
     </div>
   );
