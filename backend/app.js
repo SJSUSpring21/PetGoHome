@@ -2,7 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const cors = require("cors");
 const app = express();
-const frontend = "http://localhost:3000";
+// const frontend = "http://localhost:3000";
+const frontend = "http://34.220.247.226:3000";
 
 app.set("view engine", "ejs");
 
